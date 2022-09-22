@@ -1,0 +1,407 @@
+<script>
+	var user = [];
+	var product = [];
+	var uId = 1;
+	var pId = 1;
+	var numReg = /^\d+$/;
+
+	function checklen(inp, len) {
+		//-------------------------------Check Length--------------------------------------
+
+		var inputString = prompt(inp);
+		if (inputString.length < len) {
+			inputString = checklen(inp, len);
+		}
+		return inputString;
+	}
+
+	function checkNum(inp) {
+		//-------------------------------Check Number--------------------------------------
+
+		var num = prompt(inp);
+		if (!num.match(numReg)) {
+			num = checkNum(inp);
+		}
+		return parseInt(num);
+	}
+
+	function checkFixNum(inp, len) {
+		//-------------------------Check Number with Fix Length-----------------------------------
+
+		var fixNumber = prompt(inp);
+		if (fixNumber.length == len) {
+			if (fixNumber.match(numReg)) {
+				return parseInt(fixNumber);
+			}
+		}
+		fixNumber = checkFixNum(inp, len);
+		return fixNumber;
+	}
+
+	function deleteD(state, list) {
+		//-------------------------------Delete--------------------------------------
+		var deleteId = checkNum("Enter the " + state + " id you want to Delete: ");
+		var flag = idSearch(deleteId, list);
+
+		if (flag == -1) {
+			alert("Invalid " + state + " Id !!!");
+		} else {
+			// ----------------------------------yaha pe issue aa reha he---------------------------------------
+			data.splice(flag.id - 1, 1);
+			alert(state + " data deleted successfully !!!");
+			alert(view(list, 0, "", state));
+		}
+	}
+
+	function deleteData() {
+		var deleteChoice = checkNum(
+			"What you want to Delete: \n1. User \n2. Product \n3. Exit"
+		);
+
+		switch (deleteChoice) {
+			case 1:
+				alert(view(user, 0, "", "User"));
+				deleteD("User", user);
+
+				break;
+
+			case 2:
+				alert(view(product, 0, "", "Product"));
+				deleteD("Product", product);
+
+				break;
+
+			case 3:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		deleteData();
+	}
+
+	function update(state, list) {
+		//-------------------------------Update--------------------------------------
+		var updateChoice = checkNum(
+			"What do you want to Update? : \n1. " +
+				state +
+				" Name \n2. " +
+				state +
+				" Number"
+		);
+
+		switch (updateChoice) {
+			case 1:
+				//-------------------------------Update Name--------------------------------------
+				var updateId = checkNum(
+					"Enter the " + state + " id you want to Update: "
+				);
+				var flag = idSearch(updateId, list);
+
+				if (flag == -1) {
+					alert("Invalid " + state + " Id !!!");
+				} else {
+					flag.name = checklen(
+						"Enter new " + state + " Name: \nEnter atleast 3 chars",
+						3
+					);
+					alert(state + " Data updated successfully !!!");
+					alert(view(list, 0, "", state));
+				}
+				break;
+
+			case 2:
+				//-------------------------------Update Number--------------------------------------
+				var updateId = checkNum(
+					"Enter the " + state + " id you want to Update: "
+				);
+				var flag = idSearch(updateId, list);
+
+				if (flag == -1) {
+					alert("Invalid " + state + " Id !!!");
+				} else {
+					flag.number = checkFixNum(
+						"Enter new " +
+							state +
+							" Number: \nNumber must be a 10 digit numeric",
+						10
+					);
+					alert(state + " Data updated successfully !!!");
+					alert(view(list, 0, "", state));
+				}
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+				break;
+		}
+	}
+
+	function updateData() {
+		var updateChoice = checkNum(
+			"Which data you want to Update: \n1. User \n2. Product \n3. Exit"
+		);
+
+		switch (updateChoice) {
+			case 1:
+				alert(view(user, 0, "", "User"));
+				update("User", user);
+
+				break;
+
+			case 2:
+				alert(view(product, 0, "", "Product"));
+				update("Product", product);
+
+				break;
+
+			case 3:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		updateData();
+	}
+
+	function viewSearchData(object, state) {
+		//-------------------------------View Search Data--------------------------------------
+		alert(
+			state +
+				" Id: " +
+				object.id +
+				" - " +
+				state +
+				" Name: " +
+				object.name +
+				" - " +
+				state +
+				" Number: " +
+				object.number +
+				"\n"
+		);
+	}
+
+	function idSearch(index, list) {
+		//-------------------------------Id Search--------------------------------------
+		var flag = -1;
+		for (var i of list) {
+			if (index == i.id) {
+				flag = i;
+				break;
+			}
+		}
+		return flag;
+	}
+
+	function search(state, list) {
+		//-------------------------------Search--------------------------------------
+		var searchChoice = checkNum(
+			"Enter your Search choice: \n1. Search by Id \n2. Search by Name"
+		);
+		switch (searchChoice) {
+			case 1:
+				//-------------------------------Search by Id--------------------------------------
+				var searchId = checkNum(
+					"Enter the " + state + " id you want to search: "
+				);
+				var flag = idSearch(searchId, list);
+
+				if (flag == -1) {
+					alert("Invalid " + state + " Id !!!");
+				} else {
+					viewSearchData(flag, state);
+				}
+				break;
+
+			case 2:
+				//-------------------------------Search by Name--------------------------------------
+				var searchName = checklen(
+					"Enter the " +
+						state +
+						" Name you want to search: \nEnter atleast 3 chars",
+					3
+				);
+				var flag = -1;
+				for (var i of list) {
+					if (searchName == i.name) {
+						flag = i;
+						break;
+					}
+				}
+				if (flag == -1) {
+					alert("Invalid " + state + " Name !!!");
+				} else {
+					viewSearchData(flag, state);
+				}
+				break;
+			default:
+				alert("Enter appropriate Search choice !!!");
+				break;
+		}
+	}
+
+	function searchData() {
+		var searchChoice = checkNum(
+			"What you want to Search: \n1. User \n2. Product \n3. Exit"
+		);
+
+		switch (searchChoice) {
+			case 1:
+				search("User", user);
+				break;
+
+			case 2:
+				search("Product", product);
+				break;
+
+			case 3:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		searchData();
+	}
+
+	function view(list, start, output, state) {
+		//-------------------------------View--------------------------------------
+		output +=
+			state +
+			" Id: " +
+			list[start].id +
+			" - " +
+			state +
+			" Name: " +
+			list[start].name +
+			" - " +
+			state +
+			" Number: " +
+			list[start].number +
+			"\n";
+		if (start < list.length - 1) {
+			start++;
+			output = view(list, start, output, state);
+		}
+		return output;
+	}
+
+	function viewData() {
+		var viewChoice = checkNum(
+			"What you want to View: \n1. User List \n2. Product List \n3. Exit"
+		);
+
+		switch (viewChoice) {
+			case 1:
+				alert(view(user, 0, "", "User"));
+				break;
+
+			case 2:
+				alert(view(product, 0, "", "Product"));
+				break;
+
+			case 3:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		viewData();
+	}
+
+	function insert(state, list, id) {
+		//-------------------------------Insert--------------------------------------
+		var name = checklen("Enter " + state + " Name: \nEnter atleast 3 chars", 3);
+		var number = checkFixNum(
+			"Enter " + state + " Number: \nNumber must be a 10 digit numeric",
+			10
+		);
+		var dummy = { id, name, number };
+		list.push(dummy);
+
+		alert(state + " data added successfully !!!");
+	}
+
+	function insertData() {
+		var insertChoice = checkNum(
+			"What you want to Insert: \n1. User \n2. Product \n3. Exit"
+		);
+
+		switch (insertChoice) {
+			case 1:
+				insert("User", user, uId++);
+				break;
+
+			case 2:
+				insert("Product", product, pId++);
+				break;
+
+			case 3:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		insertData();
+	}
+
+	function main() {
+		var choice = checkNum(
+			"Enter your choice: \n1. Insert \n2. View \n3. Search \n4. Update \n5. Delete \n6. Exit"
+		);
+
+		switch (choice) {
+			case 1:
+				insertData();
+				break;
+
+			case 2:
+				viewData();
+				break;
+
+			case 3:
+				searchData();
+				break;
+
+			case 4:
+				updateData();
+				break;
+
+			case 5:
+				deleteData();
+				break;
+
+			case 6:
+				alert("Thank you! for visiting our system...");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		main();
+	}
+	main();
+</script>

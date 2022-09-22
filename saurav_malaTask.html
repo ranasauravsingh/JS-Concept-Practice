@@ -1,0 +1,38 @@
+<script>
+	var numReg = /^\d+$/;
+
+	function checkNum(inp) {
+		var num = prompt(inp);
+		if (!num.match(numReg)) {
+			num = checkNum(inp);
+		}
+		return parseInt(num);
+	}
+
+	function radhekrishna(mala = 1, count = 108, currMala = 0, currCount = 0) {
+		if (currMala == mala) {
+			document.write(
+				count + " manka ki saari kul " + mala + " mala puri.<br/>"
+			);
+			return;
+		}
+		currCount++;
+		document.write("RadheKrishna " + currCount + "<br/>");
+		if (currCount == count) {
+			currMala++;
+			document.write(count + " manka ki " + currMala + " mala puri.<br/>");
+			currCount = 0;
+		}
+		radhekrishna(mala, count, currMala, currCount);
+		return;
+	}
+
+	function main() {
+		var malaCount = checkNum("Enter the count of Mala: ");
+		var mankaCount = checkNum("Enter the count of Manka in one Mala: ");
+
+		radhekrishna(malaCount, mankaCount);
+	}
+
+	main();
+</script>

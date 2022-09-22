@@ -1,0 +1,645 @@
+<script>
+	var census = [];
+	var areaId = 1;
+
+	do {
+		var choice = parseInt(
+			prompt(
+				"Enter your choice: \n1. Store Area \n2. Store Home \n3. Store Member \n4. View \n5. Search \n6. Update \n7. Delete \n8. Exit"
+			)
+		);
+
+		if (choice == 1) {
+			//-------------------------------Store Area--------------------------------------
+
+			var areaDoWhile = true;
+			do {
+				var areaName = prompt("Enter the Area name: ");
+				var dummyArea = [areaId++, areaName, 0, 0, []]; // [Area Id, Area Name, Total Homes, Total Members, Home Array]
+
+				census.push(dummyArea);
+				var anotherArea = parseInt(
+					prompt("Want to Store another Area? \n1. Yes \n2. No")
+				);
+				if (anotherArea != 1) {
+					alert("Thank You! for visiting our system...");
+					areaDoWhile = false;
+				}
+			} while (areaDoWhile);
+		} else if (choice == 2) {
+			//-------------------------------Store Home--------------------------------------
+
+			var homeDoWhile = true;
+			do {
+				var outputAreaString = "";
+				for (var i = 0; i < census.length; i++) {
+					outputAreaString +=
+						".Area Id - " +
+						census[i][0] +
+						"\n.Area Name - " +
+						census[i][1] +
+						"  " +
+						".Total Home - " +
+						census[i][2] +
+						"  " +
+						".Total Member in " +
+						census[i][1] +
+						" = " +
+						census[i][3] +
+						"\n";
+				}
+				alert(outputAreaString);
+				var inputAreaId = parseInt(
+					prompt("Enter the Area ID in which you want to add Home: ")
+				);
+				var areaIndex = -1;
+				for (var i = 0; i < census.length; i++) {
+					if (inputAreaId == census[i][0]) {
+						areaIndex = i;
+						break;
+					}
+				}
+
+				if (areaIndex == -1) {
+					alert("Invalid Area Id...");
+				} else {
+					var currentAreaHome = true;
+					do {
+						var homeSize = census[areaIndex][4].length;
+						var homeName = prompt("Enter the Home name: ");
+						var dummyHome = [homeSize + 1, homeName, 0, []]; // [Home Id, Home Name, Total Members, Member Array]
+
+						census[areaIndex][4].push(dummyHome);
+						census[areaIndex][2] = homeSize + 1;
+						var anotherHome = parseInt(
+							prompt(
+								"Want to Store another Home in current Area? \n1. Yes \n2. No"
+							)
+						);
+						if (anotherHome != 1) {
+							alert("Thank You!");
+							currentAreaHome = false;
+						}
+					} while (currentAreaHome);
+				}
+				var anotherAreaHome = parseInt(
+					prompt("Want to Store another Home in another Area? \n1. Yes \n2. No")
+				);
+				if (anotherAreaHome != 1) {
+					alert("Thank You! for visiting our system...");
+					homeDoWhile = false;
+				}
+			} while (homeDoWhile);
+		} else if (choice == 3) {
+			//------------------------------Store Member--------------------------------------
+
+			var memberDoWhile = true;
+			do {
+				var outputAreaString = "";
+				for (var i = 0; i < census.length; i++) {
+					outputAreaString +=
+						".Area Id - " +
+						census[i][0] +
+						"\n.Area Name - " +
+						census[i][1] +
+						"  " +
+						".Total Home - " +
+						census[i][2] +
+						"  " +
+						".Total Member in " +
+						census[i][1] +
+						" = " +
+						census[i][3] +
+						"\n";
+					var outputHomeString = "";
+					for (var j = 0; j < census[i][4].length; j++) {
+						outputHomeString +=
+							".Home Id - " +
+							census[i][4][j][0] +
+							"\n.Home Name - " +
+							census[i][4][j][1] +
+							"  " +
+							".Total Member in " +
+							census[i][4][j][1] +
+							" = " +
+							census[i][4][j][2] +
+							"\n";
+					}
+					outputAreaString += outputHomeString;
+				}
+				alert(outputAreaString);
+
+				var inputAreaId = parseInt(
+					prompt("Enter the Area ID in which you want to add Member: ")
+				);
+				var areaIndex = -1;
+				for (var i = 0; i < census.length; i++) {
+					if (inputAreaId == census[i][0]) {
+						areaIndex = i;
+						break;
+					}
+				}
+				if (areaIndex == -1) {
+					alert("Invalid Area Id...");
+				} else {
+					var inputHomeId = parseInt(
+						prompt("Enter the Home ID in which you want to add Member: ")
+					);
+					var homeIndex = -1;
+					for (var i = 0; i < census[areaIndex].length; i++) {
+						if (inputHomeId == census[areaIndex][0]) {
+							homeIndex = i;
+							break;
+						}
+					}
+					if (inputHomeId == -1) {
+						alert("Invalid Home Id...");
+					} else {
+						var currentHomeMember = true;
+						do {
+							var memberSize = census[areaIndex][4][homeIndex][3].length;
+							var memberName = prompt("Enter the name of Member: ");
+							var memberNumber = parseInt(
+								prompt("Enter the mobile number of Member: ")
+							);
+							var gender = prompt("Enter the gender of Member: ");
+							var memberAge = parseInt(prompt("Enter the age of Member: "));
+							var dummyMember = [
+								memberSize + 1,
+								memberName,
+								memberNumber,
+								gender,
+								memberAge,
+							]; // [Member Id, Name, Mobile Number, Gender, Age]
+
+							census[areaIndex][4][homeIndex][3].push(dummyMember);
+							census[areaIndex][4][homeIndex][2] = memberSize + 1;
+							census[areaIndex][3] = memberSize + 1;
+
+							var anotherMember = parseInt(
+								prompt(
+									"Want to Store another Member in current Home? \n1. Yes \n2. No"
+								)
+							);
+							if (anotherMember != 1) {
+								alert("Thank You!");
+								currentHomeMember = false;
+							}
+						} while (currentHomeMember);
+					}
+				}
+				var anotherAreaMember = parseInt(
+					prompt(
+						"Want to Store another Member in another Area/Home? \n1. Yes \n2. No"
+					)
+				);
+				if (anotherAreaMember != 1) {
+					alert("Thank You! for visiting our system...");
+					memberDoWhile = false;
+				}
+			} while (memberDoWhile);
+		} else if (choice == 4) {
+			//--------------------------------View--------------------------------------
+
+			var outputAreaString = "";
+			for (var i = 0; i < census.length; i++) {
+				outputAreaString +=
+					".Area Id - " +
+					census[i][0] +
+					"\n.Area Name - " +
+					census[i][1] +
+					"  " +
+					".Total Home - " +
+					census[i][2] +
+					"  " +
+					".Total Member in " +
+					census[i][1] +
+					" = " +
+					census[i][3] +
+					"\n";
+				var outputHomeString = "";
+				for (var j = 0; j < census[i][4].length; j++) {
+					outputHomeString +=
+						".Home Id - " +
+						census[i][4][j][0] +
+						"\n.Home Name - " +
+						census[i][4][j][1] +
+						"  " +
+						".Total Member in " +
+						census[i][4][j][1] +
+						" = " +
+						census[i][4][j][2] +
+						"\n";
+
+					var outputMemberString = "";
+					for (var k = 0; k < census[i][4][j][3].length; k++) {
+						outputMemberString +=
+							".Member Id - " +
+							census[i][4][j][3][k][0] +
+							"\n.Member Name - " +
+							census[i][4][j][3][k][1] +
+							"  " +
+							".Mobile Number - " +
+							census[i][4][j][3][k][2] +
+							"  " +
+							".Gender - " +
+							census[i][4][j][3][k][3] +
+							"  " +
+							".Age - " +
+							census[i][4][j][3][k][4] +
+							"\n";
+					}
+					outputHomeString += outputMemberString;
+				}
+				outputAreaString += outputHomeString;
+			}
+			alert(outputAreaString);
+		} else if (choice == 5) {
+			//-----------------------------------Search--------------------------------------
+
+			var searchDoWhile = true;
+			do {
+				var search = parseInt(
+					prompt(
+						"How do you want to SEARCH in Census ? \n1.Through Area Name \nEnter the choice. "
+					)
+				);
+				if (search == 1) {
+					//-----------------------------Search Area Name-------------------------------------
+					var areaNameDoWhile = true;
+					do {
+						var searchAreaName = prompt(
+							"Enter the Area Name you want to Search: "
+						);
+
+						var mark = -1;
+						for (var i = 0; i < census.length; i++) {
+							if (searchAreaName == census[i][1]) {
+								mark = i;
+								break;
+							}
+						}
+						if (mark == -1) {
+							alert("Invalid Area Name !!!");
+						} else {
+							var outputAreaString = "";
+
+							outputAreaString +=
+								".Area Id - " +
+								census[mark][0] +
+								"\n.Area Name - " +
+								census[mark][1] +
+								"  " +
+								".Total Home - " +
+								census[mark][2] +
+								"  " +
+								".Total Member in " +
+								census[mark][1] +
+								" = " +
+								census[mark][3] +
+								"\n";
+							var outputHomeString = "";
+							for (var j = 0; j < census[mark][4].length; j++) {
+								outputHomeString +=
+									".Home Id - " +
+									census[mark][4][j][0] +
+									"\n.Home Name - " +
+									census[mark][4][j][1] +
+									"  " +
+									".Total Member in " +
+									census[mark][4][j][1] +
+									" = " +
+									census[mark][4][j][2] +
+									"\n";
+
+								var outputMemberString = "";
+								for (var k = 0; k < census[mark][4][j][3].length; k++) {
+									outputMemberString +=
+										".Member Id - " +
+										census[mark][4][j][3][k][0] +
+										"\n.Member Name - " +
+										census[mark][4][j][3][k][1] +
+										"  " +
+										".Mobile Number - " +
+										census[mark][4][j][3][k][2] +
+										"  " +
+										".Gender - " +
+										census[mark][4][j][3][k][3] +
+										"  " +
+										".Age - " +
+										census[mark][4][j][3][k][4] +
+										"\n";
+								}
+								outputHomeString += outputMemberString;
+							}
+							outputAreaString += outputHomeString;
+
+							alert(outputAreaString);
+						}
+						if (
+							parseInt(
+								prompt(
+									"Do still want to continue with \n1. Search through Area Name \n2. Exit"
+								)
+							) == 2
+						) {
+							areaNameDoWhile = false;
+						}
+					} while (areaNameDoWhile);
+				}
+
+				if (
+					parseInt(
+						prompt("Do still want to continue with \n1. Search \n2. Exit")
+					) == 2
+				) {
+					alert("Thank You! for visiting our system...");
+					searchDoWhile = false;
+				}
+			} while (searchDoWhile);
+		} else if (choice == 6) {
+			//-----------------------------------Update--------------------------------------
+
+			var updateDoWhile = true;
+			do {
+				var outputAreaString = "";
+				for (var i = 0; i < census.length; i++) {
+					outputAreaString +=
+						".Area Id - " +
+						census[i][0] +
+						"\n.Area Name - " +
+						census[i][1] +
+						"  " +
+						".Total Home - " +
+						census[i][2] +
+						"  " +
+						".Total Member in " +
+						census[i][1] +
+						" = " +
+						census[i][3] +
+						"\n";
+					var outputHomeString = "";
+					for (var j = 0; j < census[i][4].length; j++) {
+						outputHomeString +=
+							".Home Id - " +
+							census[i][4][j][0] +
+							"\n.Home Name - " +
+							"  " +
+							census[i][4][j][1] +
+							".Total Member in " +
+							census[i][4][j][1] +
+							" = " +
+							census[i][4][j][2] +
+							"\n";
+
+						var outputMemberString = "";
+						for (var k = 0; k < census[i][4][j][3].length; k++) {
+							outputMemberString +=
+								".Member Id - " +
+								census[i][4][j][3][k][0] +
+								"\n.Member Name - " +
+								census[i][4][j][3][k][1] +
+								"  " +
+								".Mobile Number - " +
+								census[i][4][j][3][k][2] +
+								"  " +
+								".Gender - " +
+								census[i][4][j][3][k][3] +
+								"  " +
+								".Age - " +
+								census[i][4][j][3][k][4] +
+								"\n";
+						}
+						outputHomeString += outputMemberString;
+					}
+					outputAreaString += outputHomeString;
+				}
+				alert(outputAreaString);
+
+				var mark = -1;
+				var updateAreaId = parseInt(prompt("Enter the Area Id for updation: "));
+				for (var i = 0; i < census.length; i++) {
+					if (updateAreaId == census[i][0]) {
+						mark = i;
+						break;
+					}
+				}
+				if (mark == -1) {
+					alert("Sorry!, This Area Id is not in out records...");
+				} else {
+					var updateChoice = parseInt(
+						prompt(
+							"What do you want to UPDATE in the Census ? \n1.Area Name \n2.Home Name \n3. Member Details \nEnter the choice. "
+						)
+					);
+					if (updateChoice == 1) {
+						//-----------------------------Update Area Name------------------------------------
+						var newAreaName = prompt("Enter New Area Name: ");
+						census[mark][1] = newAreaName;
+					} else if (updateChoice == 2) {
+						//-----------------------------Update Home Name------------------------------------
+						var homeUpdateChoice = true;
+						do {
+							var outputHomeString = "";
+							for (var j = 0; j < census[mark][4].length; j++) {
+								outputHomeString +=
+									".Home Id - " +
+									census[mark][4][j][0] +
+									"\n.Home Name - " +
+									census[mark][4][j][1] +
+									"  " +
+									".Total Member in " +
+									census[mark][4][j][1] +
+									" = " +
+									census[mark][4][j][2] +
+									"\n";
+							}
+							alert(outputHomeString);
+							var newHomeNameId = parseInt(
+								prompt(
+									"Enter the Home Id for which you want to update the Home Name: "
+								)
+							);
+
+							var mark2 = -1;
+							for (var j = 0; j < census[mark][4].length; j++) {
+								if (newHomeNameId == census[mark][4][j][0]) {
+									mark2 = j;
+									break;
+								}
+							}
+							if (mark2 == -1) {
+								alert("Invalid Home Id !!!");
+							} else {
+								var newHomeName = prompt("Enter New Home Name: ");
+								census[mark][4][mark2][1] = newHomeName;
+							}
+							if (
+								parseInt(
+									prompt(
+										"Do still want to continue with \n1. Update Home Name \n2. Exit"
+									)
+								) == 2
+							) {
+								alert("Thank You!");
+								homeUpdateChoice = false;
+							}
+						} while (homeUpdateChoice);
+					} else if (updateChoice == 3) {
+						//-----------------------------Update Member------------------------------------
+						var homeUpdateChoice = true;
+						do {
+							var outputHomeString = "";
+							for (var j = 0; j < census[mark][4].length; j++) {
+								outputHomeString +=
+									".Home Id - " +
+									census[mark][4][j][0] +
+									"\n.Home Name - " +
+									census[mark][4][j][1] +
+									"  " +
+									".Total Member in " +
+									census[mark][4][j][1] +
+									" = " +
+									census[mark][4][j][2] +
+									"\n";
+								var outputMemberString = "";
+								for (var k = 0; k < census[mark][4][j][3].length; k++) {
+									outputMemberString +=
+										".Member Id - " +
+										census[mark][4][j][3][k][0] +
+										"\n.Member Name - " +
+										census[mark][4][j][3][k][1] +
+										"  " +
+										".Mobile Number - " +
+										census[mark][4][j][3][k][2] +
+										"  " +
+										".Gender - " +
+										census[mark][4][j][3][k][3] +
+										"  " +
+										".Age - " +
+										census[mark][4][j][3][k][4] +
+										"\n";
+								}
+								outputHomeString += outputMemberString;
+							}
+							alert(outputHomeString);
+							var newHomeNameId = parseInt(
+								prompt(
+									"Enter the Home Id for which you want to update the Member details: "
+								)
+							);
+
+							var mark2 = -1;
+							for (var j = 0; j < census[mark][4].length; j++) {
+								if (newHomeNameId == census[mark][4][j][0]) {
+									mark2 = j;
+									break;
+								}
+							}
+							if (mark2 == -1) {
+								alert("Invalid Home Id !!!");
+							} else {
+								var outputMemberString = "";
+								for (var k = 0; k < census[mark][4][mark2][3].length; k++) {
+									outputMemberString +=
+										".Member Id - " +
+										census[mark][4][mark2][3][k][0] +
+										"\n.Member Name - " +
+										census[mark][4][mark2][3][k][1] +
+										"  " +
+										".Mobile Number - " +
+										census[mark][4][mark2][3][k][2] +
+										"  " +
+										".Gender - " +
+										census[mark][4][mark2][3][k][3] +
+										"  " +
+										".Age - " +
+										census[mark][4][mark2][3][k][4] +
+										"\n";
+								}
+								alert(outputMemberString);
+
+								var memberId = parseInt(
+									prompt(
+										"Enter the Member Id for which you want to update the Member details: "
+									)
+								);
+
+								var mark3 = -1;
+								for (var k = 0; k < census[mark][4][mark2][3].length; k++) {
+									if (newHomeNameId == census[mark][4][mark2][3][k][0]) {
+										mark3 = k;
+										break;
+									}
+								}
+								if (mark3 == -1) {
+									alert("Invalid Member Id !!!");
+								} else {
+									var memberUpdateChoice = true;
+									do {
+										var memberDetailChoice = parseInt(
+											prompt(
+												"What do you want to UPDATE in the Member Details ? \n1. Name \n2. Number \n3. Gender \n4. Age \nEnter the choice. "
+											)
+										);
+										if (memberDetailChoice == 1) {
+											census[mark][4][mark2][3][mark3][1] = prompt(
+												"Enter New Name of Member: "
+											);
+										} else if (memberDetailChoice == 2) {
+											census[mark][4][mark2][3][mark3][2] = prompt(
+												"Enter New Number of Member: "
+											);
+										} else if (memberDetailChoice == 3) {
+											census[mark][4][mark2][3][mark3][3] = prompt(
+												"Enter New Gender of Member: "
+											);
+										} else if (memberDetailChoice == 4) {
+											census[mark][4][mark2][3][mark3][4] = prompt(
+												"Enter New Age of Member: "
+											);
+										}
+
+										if (
+											parseInt(
+												prompt(
+													"Do still want to continue with \n1. Update another Details of Member \n2. Exit"
+												)
+											) == 2
+										) {
+											memberUpdateChoice = false;
+										}
+									} while (memberUpdateChoice);
+								}
+							}
+							if (
+								parseInt(
+									prompt(
+										"Do still want to continue with \n1. Update Member Details in another Home \n2. Exit"
+									)
+								) == 2
+							) {
+								alert("Thank You!");
+								homeUpdateChoice = false;
+							}
+						} while (homeUpdateChoice);
+					}
+				}
+
+				if (
+					parseInt(
+						prompt("Do still want to continue with \n1. Update \n2. Exit")
+					) == 2
+				) {
+					alert("Thank You! for visiting our system...");
+					updateDoWhile = false;
+				}
+			} while (updateDoWhile);
+		} else if (choice == 7) {
+			//-----------------------------------Delete--------------------------------------
+		}
+		if (choice == 8) {
+			alert("Thank You! for visiting our system...");
+		}
+	} while (choice != 8);
+</script>

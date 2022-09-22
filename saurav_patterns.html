@@ -1,0 +1,554 @@
+<script>
+	/*
+
+            *
+
+            *
+
+       *  *   *  *
+
+            *
+
+            *
+
+    */
+	// for (let i = 0; i < 7; i++) {
+	//   for (let j = 0; j < 9; j++) {
+	//     if ((i == 3 && j % 2 == 1) || (j == 4 && i % 2 == 0)) {
+	//       document.write("*");
+	//     } else {
+	//       document.write("&nbsp");
+	//     }
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	//---------------------------------------------------------------------------------------
+
+	/*
+
+            *
+            *
+            *
+            *
+            * * * * *
+            *
+            *
+            *
+            *
+
+  */
+
+	//   for (let i = 0; i <= 9; i++) {
+	//     for (let j = 0; j <= 5; j++) {
+	//       if (j == 0 || i == 4) {
+	//         document.write("* ");
+	//       } else {
+	//         document.write("&nbsp");
+	//       }
+	//     }
+	//     document.write("<br/>");
+	//   }
+
+	//---------------------------------------------------------------------------------------
+
+	/*
+
+            *
+          * *
+        *   *
+            *
+            *
+            *
+        * * * * *
+        *       *
+        *       *
+        *       *
+  */
+
+	//   for (let i = 0; i < 10; i++) {
+	//     for (let j = 0; j < 5; j++) {
+	//       if (
+	//         i == 6 ||
+	//         (i > 6 && (j == 0 || j == 4)) ||
+	//         (j == 2 && i < 6) ||
+	//         (j == 0 && i == 2) ||
+	//         (j == 1 && i == 1)
+	//       ) {
+	//         document.write("* ");
+	//       } else {
+	//         document.write("&nbsp&nbsp");
+	//       }
+	//     }
+	//     document.write("<br/>");
+	//   }
+
+	//---------------------------------------------------------------------------------------
+
+	/*
+        *   *   *   *   *   *
+                  *
+
+                  *
+
+                  *
+
+                  *
+
+                  *
+        *   *   *   *   *   *
+  */
+
+	// NUM must be an odd integer and MID also be an odd integer;
+	// var num = prompt("Enter a number");
+	// var mid = parseInt(num / 2);
+
+	// for (let i = 0; i < num; i++) {
+	//   for (let j = 0; j < num; j++) {
+	//     if (
+	//       ((i == 0 || i == num - 1) && j % 2 == 0) ||
+	//       (j == mid && i % 2 != 0)
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	//---------------------------------------------------------------------------------------
+
+	/*
+                *
+              * * *
+            *   *   *
+          *     *     *
+        *       *       *
+      *       * * *       *
+    *       *   *   *       *
+  * * * * * * * * * * * * * * *
+    *       *   *   *       *
+      *       * * *       *
+        *       *       *
+          *     *     *
+            *   *   *
+              * * *
+                *
+
+
+  */
+
+	// Outer
+
+	// var num = prompt("Enter a number");
+	// var mid = parseInt(num / 2);
+	// var x = 1;
+	// var y = num - 2;
+	// var p = (q = parseInt(num / 2));
+
+	// // Inner
+	// var r = (s = parseInt(num / 2));
+	// var w = parseInt(r / 2) + 2;
+	// var z = mid + (mid - w);
+
+	// for (let i = 0; i < num; i++) {
+	//   for (let j = 0; j < num; j++) {
+	//     if (
+	//       i == mid ||
+	//       j == mid ||
+	//       (i < mid && (j == p || j == q || j == r || j == s)) ||
+	//       (i > mid && i < mid + parseInt(mid / 2) && (j == w || j == z)) ||
+	//       (i > mid && (j == x || j == y))
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   if (i < mid) {
+	//     p--;
+	//     q++;
+	//     if (i > parseInt(mid / 2)) {
+	//       r--;
+	//       s++;
+	//     }
+	//   } else if (i > mid) {
+	//     y--;
+	//     x++;
+	//     if (i < mid + parseInt(mid / 2)) {
+	//       w++;
+	//       z--;
+	//     }
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	//---------------------------------------------------------------------------------------
+
+	/*
+
+      Name pattern
+
+  */
+
+	var p = 9;
+	var q = 10;
+	var r = 22;
+	var s = 30;
+	var t = 31;
+	var u = 36;
+	var v = 40;
+
+	for (let i = 0; i < 9; i++) {
+		for (let j = 0; j < 42; j++) {
+			// Letter "S"
+			if (j < 6) {
+				if (
+					((i == 0 || i == 8 || i == 4) && j > 0 && j < 5) ||
+					(j == 0 && i > 0 && i < 4) ||
+					(j == 5 && i > 4 && i < 8) ||
+					(i == 1 && j == 5) ||
+					(i == 7 && j == 0)
+				) {
+					document.write("*  ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+			// Letter "A"
+			else if (j < 13 && j > 6) {
+				if (
+					i == 4 ||
+					(i > 1 && (j == 7 || j == 12)) ||
+					(i < 2 && (j == p || j == q))
+				) {
+					document.write("* ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+			// Letter "U"
+			else if (j < 20 && j > 13) {
+				if (((j == 14 || j == 19) && i < 8) || (i == 8 && j > 14 && j < 19)) {
+					document.write("* ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+			// Letter "R"
+			else if (j < 27 && j > 20) {
+				if (
+					j == 21 ||
+					((i == 0 || i == 4) && j < 25) ||
+					(i > 4 && j == r) ||
+					((i == 1 || i == 3) && j == 25) ||
+					((i == 2 || i == 8) && j == 26)
+				) {
+					document.write("* ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+			// Letter "A"
+			else if (j < 34 && j > 27) {
+				if (
+					i == 4 ||
+					(i > 1 && (j == 28 || j == 33)) ||
+					(i < 2 && (j == s || j == t))
+				) {
+					document.write("* ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+			// Letter "V"
+			else {
+				if (((j == 35 || j == 41) && i < 6) || (i > 5 && (j == u || j == v))) {
+					document.write("* ");
+				} else {
+					document.write("&nbsp;&nbsp;&nbsp;");
+				}
+			}
+		}
+		if (i < 2) {
+			p--;
+			q++;
+		}
+		if (i < 2) {
+			s--;
+			t++;
+		}
+		if (i > 4) {
+			r++;
+		}
+		if (i > 5) {
+			u++;
+			v--;
+		}
+
+		document.write("<br/>");
+	}
+
+	//------------------------------------------------------------------------------------------
+
+	/*
+
+                *   *
+                *   *
+                *   *
+                *   *
+              * *   * *
+
+          *     *   *     *
+  * * * * *   *       *   * * * * *
+                  *
+  * * * * *   *       *   * * * * *
+          *     *   *     *
+
+              * *   * *
+                *   *
+                *   *
+                *   *
+                *   *
+
+  */
+
+	// var num = prompt("Enter a number");
+	// var mid = parseInt(num / 2);
+	// var mid1 = parseInt(mid / 2);
+	// var mid2 = parseInt(mid1 / 2);
+	// var a = mid - mid2;
+	// var b = mid + mid2;
+	// var c = mid1;
+	// var d = mid + mid1;
+
+	// for (let i = 0; i < num; i++) {
+	//   for (let j = 0; j < num; j++) {
+	//     if (
+	//       ((j == mid - parseInt(mid2 / 2) || j == mid + parseInt(mid2 / 2)) &&
+	//         (i <= mid1 || i >= mid + mid1)) ||
+	//       ((i == mid - parseInt(mid2 / 2) || i == mid + parseInt(mid2 / 2)) &&
+	//         (j <= mid1 || j >= mid + mid1)) ||
+	//       (((i >= mid1 && i < mid && i % 2 == 0) ||
+	//         (i >= mid && i < num - mid1 && i % 2 == 0)) &&
+	//         (j == a || j == b)) ||
+	//       (((i > mid1 + 1 && i < mid) || (i >= mid && i < mid + mid1 - 1)) &&
+	//         (j == c || j == d))
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   if (i >= mid1 && i < mid && i % 2 == 0) {
+	//     a++;
+	//     b--;
+	//   } else if (i >= mid && i < num - mid1 && i % 2 == 0) {
+	//     a--;
+	//     b++;
+	//   }
+	//   if (i > mid1 + 1 && i < mid) {
+	//     c += 2;
+	//     d -= 2;
+	//   } else if (i >= mid && i < mid + mid1 - 1) {
+	//     c -= 2;
+	//     d += 2;
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	// -------------------------------------------------------------------------------------
+
+	/*
+                      *
+
+                    *   *
+
+                  *       *
+
+      * * * * * *           * * * * * *
+        *                           *
+          *                       *
+            *                   *
+              *               *
+
+            *         *         *
+                  *       *
+          *    *             *    *
+            *                   *
+        *                           *
+
+  */
+	// var num = prompt("Enter a number");
+	// var mid = parseInt(num / 2);
+	// var mid1 = parseInt(mid / 2);
+	// var mid2 = parseInt(mid1 / 2);
+
+	// var a = (b = mid);
+	// var c = 0;
+	// var d = num - 1;
+	// var e = (f = mid);
+
+	// for (var i = 0; i < num; i++) {
+	//   for (var j = 0; j < num; j++) {
+	//     if (
+	//       (i == mid - mid2 && (j < mid - mid2 || j > mid + mid2)) ||
+	//       (i < mid - mid2 && i % 2 == 0 && (j == a || j == b)) ||
+	//       (i > mid - mid2 - 1 && i < mid + mid2 && (j == c || j == d)) ||
+	//       (i > mid + 1 && i % 2 == 0 && (j == c || j == d)) ||
+	//       (i > mid + mid1 - 1 && i < num - 1 && (j == e || j == f))
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   if (i < mid - mid2 && i % 2 == 0) {
+	//     a--;
+	//     b++;
+	//   }
+	//   if (i > mid - mid2 - 1 && i < mid + mid2) {
+	//     c++;
+	//     d--;
+	//   } else if (i > mid + 1 && i % 2 == 0) {
+	//     c--;
+	//     d++;
+	//   }
+	//   if (i > mid + mid1 - 1 && i < num - 1) {
+	//     e -= 2;
+	//     f += 2;
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	//---------------------------------------------------------------------------------------------
+
+	/*
+            *
+            *   *
+            * * * * * *
+            *
+            *
+          *   *
+        *       *
+      *           *
+    *               *
+  * * * * * * * * * * *
+  *                   *
+  *                   *
+  *                   *
+  *                   *
+  *     * * * * *     *
+  *     *       *     *
+  *     *       *     *
+  *     *       *     *
+  *     *       *     *
+  * * * * * * * * * * *
+    *               *
+    * * * * * * * * *
+      *           *
+      * * * * * * *
+        *       *
+
+  */
+
+	// var x = prompt("Enter a number");
+	// var y = parseInt(x / 2);
+	// var mid = parseInt(x / 2);
+	// var a = (b = c = 6);
+	// var p = 2;
+	// var q = 10;
+
+	// for (var i = 0; i < x; i++) {
+	//   for (var j = 0; j < y; j++) {
+	//     if (
+	//       (i > 9 && i < 19 && (j == 1 || j == mid - 1)) ||
+	//       ((i == 9 || i == 19) && j >= 1) ||
+	//       (i > 0 && i < 5 && j == 6) ||
+	//       (i == 2 && j >= 6 && j < mid) ||
+	//       (i < 3 && j == a) ||
+	//       (i > 3 && i < 10 && (j == b || j == c)) ||
+	//       (i > mid + 1 && i <= 19 && (j == 4 || j == 8)) ||
+	//       (i == 14 && j >= 4 && j < 8) ||
+	//       (i > 19 && i % 2 == 0 && (j == p || j == q)) ||
+	//       (i > 19 && i % 2 != 0 && j >= p && j <= q)
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   if (i < 3) {
+	//     a += 2;
+	//   } else if (i > 3 && i < 10) {
+	//     b--;
+	//     c++;
+	//   } else if (i > 19 && i % 2 != 0) {
+	//     p++;
+	//     q--;
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	//---------------------------------------------------------------------------------------------
+
+	/*
+      * * * * * * * * * * * * * *   
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+      * *       * * * * * * * * *   
+          *   *                     
+            *             *         
+                        *   *       
+      * * * * * * * * *       * *   
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+    *                             *
+      * * * * * * * * * * * * * *   
+
+  */
+	// var a = 2;
+	// var b = 6;
+	// var c = (d = 11);
+
+	// for (var i = 0; i < 21; i++) {
+	//   for (var j = 0; j < 16; j++) {
+	//     if (
+	//       ((i == 0 || i == 20) && j > 0 && j < 15) ||
+	//       ((j == 0 || j == 15) && i > 0 && i < 8) ||
+	//       ((j == 0 || j == 15) && i >= 13 && i < 20) ||
+	//       (i > 7 && i < 11 && (j == a || j == b)) ||
+	//       (i >= 10 && i < 13 && (j == c || j == d)) ||
+	//       (i == 8 && j == 1) ||
+	//       (i == 12 && j == 14) ||
+	//       (i == 12 && j > 0 && j < 9) ||
+	//       (i == 8 && j > 6 && j < 15)
+	//     ) {
+	//       document.write("* ");
+	//     } else {
+	//       document.write("&nbsp;&nbsp;");
+	//     }
+	//   }
+	//   if (i > 7 && i < 11) {
+	//     a++;
+	//     b--;
+	//   }
+	//   if (i >= 10 && i < 13) {
+	//     c--;
+	//     d++;
+	//   }
+	//   document.write("<br/>");
+	// }
+
+	document.write("<br/>");
+</script>

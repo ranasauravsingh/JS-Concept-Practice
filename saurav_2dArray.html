@@ -1,0 +1,304 @@
+<script>
+	var records = [];
+
+	var startingId = parseInt(prompt("From where do you want to start the id ?"));
+
+	var doWhile = 0;
+	do {
+		var choice = parseInt(
+			prompt(
+				"What do want to do in your records ? \n1. Insert \n2. View \n3. Search \n4. Update \n5. Delete \n6. Exit"
+			)
+		);
+
+		if (choice == 1) {
+			//--------------------------INSERTION--------------------------------------
+
+			var n = parseInt(prompt(" Enter the size of data ?"));
+			for (var i = 0; i < n; i++) {
+				var id = startingId++;
+				var name = prompt("Enter the Name: (Atleast 3 characters)");
+				var number = parseInt(
+					prompt("Enter the Number: (Number should be of 10 digits)")
+				);
+
+				var email = prompt("Enter the email: ");
+				var password = prompt(
+					"Enter the password: \n(Password must contain \natleast 1 alphabet, \natleast 1 number and \natleast1 special character & \nlength should be in range of 8 to 12 chars)"
+				);
+
+				var birthDate = prompt("Enter the birthdate: ");
+				var price = parseInt(prompt("Enter the price: "));
+				var quantity = parseInt(prompt("Enter the quantity: "));
+				var sumTotal = price * quantity;
+				var gst = parseInt(prompt("Enter GST rate: "));
+				var total = sumTotal + parseInt((sumTotal * gst) / 100);
+
+				var dummy = [
+					id,
+					name,
+					number,
+					email,
+					password,
+					birthDate,
+					price,
+					quantity,
+					sumTotal,
+					gst,
+					total,
+				];
+				records.push(dummy);
+			}
+		} else if (choice == 2) {
+			//----------------------------VIEW-------------------------------------
+
+			for (var i = 0; i < records.length; i++) {
+				alert(
+					"ID=" +
+						records[i][0] +
+						"\nName=" +
+						records[i][1] +
+						"\nNumber=" +
+						records[i][2] +
+						"\nEmail=" +
+						records[i][3] +
+						"\nBirth Date=" +
+						records[i][5] +
+						"\nPrice=" +
+						records[i][6] +
+						"\nQuantity=" +
+						records[i][7] +
+						"\nSum Total=" +
+						records[i][8] +
+						"\nTotal=" +
+						records[i][10]
+				);
+			}
+		} else if (choice == 3) {
+			//----------------------------Search-------------------------------------
+
+			var searchDoWhile = -1;
+			do {
+				var search = parseInt(
+					prompt(
+						"How do you want to SEARCH in the Records ? \n1.Through NAME \n2.Through NUMBER \nEnter the choice. "
+					)
+				);
+
+				if (search == 1) {
+					var mk = -1;
+					do {
+						var searchName = prompt("Enter the Name you want to Search: ");
+
+						for (var i = 0; i < records.length; i++) {
+							if (searchName == records[i][1]) {
+								mk = i;
+								alert(
+									"ID= " +
+										records[mk][0] +
+										"\nName= " +
+										records[mk][1] +
+										"\nNumber= " +
+										records[mk][2] +
+										"\nEmail= " +
+										records[mk][3] +
+										"\nBirth Date= " +
+										records[mk][5] +
+										"\nPrice= " +
+										records[mk][6] +
+										"\nQuantity= " +
+										records[mk][7] +
+										"\nSum Total= " +
+										records[mk][8] +
+										"\nTotal= " +
+										records[mk][10]
+								);
+							}
+						}
+						if (mk == -1) {
+							alert("Sorry!, This name is not in out records...");
+
+							var conti = parseInt(
+								prompt(
+									"Do still want to continue with \n1. another name \n2. Exit"
+								)
+							);
+							if (conti == 2) {
+								mk = 0;
+							}
+						}
+					} while (mk == -1);
+				} else if (search == 2) {
+					var mk = -1;
+					do {
+						var searchNumber = prompt("Enter the Number you want to Search: ");
+
+						for (var i = 0; i < records.length; i++) {
+							if (searchNumber == records[i][2]) {
+								mk = i;
+								alert(
+									"ID= " +
+										records[mk][0] +
+										"\nName= " +
+										records[mk][1] +
+										"\nNumber= " +
+										records[mk][2] +
+										"\nEmail= " +
+										records[mk][3] +
+										"\nBirth Date= " +
+										records[mk][5] +
+										"\nPrice= " +
+										records[mk][6] +
+										"\nQuantity= " +
+										records[mk][7] +
+										"\nSum Total= " +
+										records[mk][8] +
+										"\nTotal= " +
+										records[mk][10]
+								);
+							}
+						}
+						if (mk == -1) {
+							alert("Sorry!, This number is not in out records...");
+
+							var conti = parseInt(
+								prompt(
+									"Do still want to continue with \n1. another number \n2. Exit"
+								)
+							);
+							if (conti == 2) {
+								mk = 0;
+							}
+						}
+					} while (mk == -1);
+				} else {
+					alert("Please select appropriate Search choice. Thank You!");
+				}
+				var ch = parseInt(
+					prompt("Do still want to continue with \n1. Search \n2. Exit")
+				);
+				if (ch == 2) {
+					searchDoWhile = 0;
+				}
+			} while (searchDoWhile == -1);
+		} else if (choice == 4) {
+			//----------------------------Update-------------------------------------
+
+			var mk = -1;
+			do {
+				var updateID = parseInt(prompt("Enter the ID for updation: "));
+				for (var i = 0; i < records.length; i++) {
+					if (updateID == records[i][0]) {
+						mk = i;
+						alert(
+							"ID=" +
+								records[mk][0] +
+								"\nName=" +
+								records[mk][1] +
+								"\nNumber=" +
+								records[mk][2] +
+								"\nEmail=" +
+								records[mk][3] +
+								"\nBirth Date=" +
+								records[mk][5] +
+								"\nPrice=" +
+								records[mk][6] +
+								"\nQuantity=" +
+								records[mk][7] +
+								"\nSum Total=" +
+								records[mk][8] +
+								"\nTotal=" +
+								records[mk][10]
+						);
+						break;
+					}
+				}
+				if (mk == -1) {
+					alert("Sorry!, This ID is not in out records...");
+				}
+			} while (mk == -1);
+			var updateChoice = parseInt(
+				prompt(
+					"What do you want to UPDATE in the Records ? \n1.NAME \n2.NUMBER \nEnter the choice. "
+				)
+			);
+			if (updateChoice == 1) {
+				var na = prompt("Enter New Name: (Atleast 3 characters)");
+
+				records[mk][1] = na;
+			} else if (updateChoice == 2) {
+				var num = parseInt(
+					prompt("Enter New Number: (Number should be of 10 digits)")
+				);
+
+				records[mk][2] = num;
+			} else {
+				alert("Please select appropriate Update choice. Thank You!");
+			}
+
+			alert(
+				"ID=" +
+					records[mk][0] +
+					"\nName=" +
+					records[mk][1] +
+					"\nNumber=" +
+					records[mk][2] +
+					"\nEmail=" +
+					records[mk][3] +
+					"\nBirth Date=" +
+					records[mk][5] +
+					"\nPrice=" +
+					records[mk][6] +
+					"\nQuantity=" +
+					records[mk][7] +
+					"\nSum Total=" +
+					records[mk][8] +
+					"\nTotal=" +
+					records[mk][10]
+			);
+		} else if (choice == 5) {
+			//----------------------------Delete-------------------------------------
+
+			do {
+				var mk = -1;
+				var deleteID = parseInt(prompt("Enter the ID for deletion: "));
+				for (var i = 0; i < records.length; i++) {
+					if (deleteID == records[i][0]) {
+						mk = i;
+						break;
+					}
+				}
+			} while (mk == -1);
+
+			records.splice(mk, 1);
+
+			for (var i = 0; i < records.length; i++) {
+				alert(
+					"ID=" +
+						records[i][0] +
+						"\nName=" +
+						records[i][1] +
+						"\nNumber=" +
+						records[i][2] +
+						"\nEmail=" +
+						records[i][3] +
+						"\nBirth Date=" +
+						records[i][5] +
+						"\nPrice=" +
+						records[i][6] +
+						"\nQuantity=" +
+						records[i][7] +
+						"\nSum Total=" +
+						records[i][8] +
+						"\nTotal=" +
+						records[i][10]
+				);
+			}
+		} else if (choice == 6) {
+			alert("Thank You! for visiting our system...");
+			doWhile = 1;
+		} else {
+			alert("Please select appropriate choice. Thank You!");
+		}
+	} while (doWhile == 0);
+</script>

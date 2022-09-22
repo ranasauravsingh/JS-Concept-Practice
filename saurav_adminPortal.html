@@ -1,0 +1,536 @@
+<script>
+	var studentList = [];
+	var courseList = [];
+	var batchList = [];
+
+	var adminList = [
+		{ id: 1, adminName: "saurav", adminPassword: 121 },
+		{ id: 2, adminName: "keshav", adminPassword: 121 },
+	];
+
+	var studentId = 1;
+	var courseId = 1;
+	var batchId = 1;
+	var doWhile = true;
+
+	do {
+		var choice = parseInt(
+			prompt("Enter your User Profile: \n1. Admin \n2. Student \n3. Exit")
+		);
+		switch (choice) {
+			case 1:
+				//-------------------------------Admin Secton--------------------------------------
+				var adminUserName = prompt("Enter your Admin Username: ");
+				var adminFlag = 0;
+				for (var a of adminList) {
+					if (adminUserName == a.adminName) {
+						adminFlag = 1;
+						var adminUserPassword = prompt("Enter your Admin Password: ");
+						if (adminUserPassword == a.adminPassword) {
+							adminFlag = 2;
+							alert("Login Successfull, Welcome to Admin Side");
+						}
+					}
+				}
+				if (adminFlag == 0) {
+					alert("Invalid Admin UserName !!!");
+				} else if (adminFlag == 1) {
+					alert("Invalid Admin Password !!!");
+				} else {
+					var adminDoWhile = true;
+					do {
+						var adminChoice = parseInt(
+							prompt(
+								"Enter your choice: \n1. Manage Course \n2. Manage Batch \n3. Manage Student \n4. Payment Collection"
+							)
+						);
+						switch (adminChoice) {
+							case 1:
+								//-------------------------------Manage Course--------------------------------------
+
+								var adminCourseDoWhile = true;
+								do {
+									var adminCourseChoice = parseInt(
+										prompt(
+											"Enter your choice: \n1. Add a Course \n2. View Courses"
+										)
+									);
+
+									switch (adminCourseChoice) {
+										case 1:
+											//-------------------------------Add a Course--------------------------------------
+											var courseDoWhile = true;
+											do {
+												var courseName = prompt("Enter the Course Name: ");
+												var courseFees = parseInt(
+													prompt("Enter the Course Fees: ")
+												);
+												var courseObject = {
+													course_Id: courseId++,
+													course_Name: courseName,
+													course_Fees: courseFees,
+												};
+												courseList.push(courseObject);
+
+												if (
+													parseInt(
+														prompt(
+															"Do still want to continue with \n1. Add Course \n2. Exit"
+														)
+													) == 2
+												) {
+													courseDoWhile = false;
+												}
+											} while (courseDoWhile);
+											break;
+
+										case 2:
+											//-------------------------------View Courses-----------------------------------
+											var viewCourse = "";
+											for (var c of courseList) {
+												viewCourse +=
+													".Course Id - " +
+													c.course_Id +
+													"  " +
+													".Course Name - " +
+													c.course_Name +
+													"  " +
+													".Course Fees - " +
+													c.course_Fees +
+													"\n";
+											}
+											alert(viewCourse);
+											break;
+									}
+									if (
+										parseInt(
+											prompt(
+												"Do still want to continue with \n1. Manage Course \n2. Exit"
+											)
+										) == 2
+									) {
+										adminCourseDoWhile = false;
+									}
+								} while (adminCourseDoWhile);
+								break;
+
+							case 2:
+								//-------------------------------Manage Batch--------------------------------------
+
+								var adminBatchDoWhile = true;
+								do {
+									var adminBatchChoice = parseInt(
+										prompt(
+											"Enter your choice: \n1. Create a Batch \n2. View Batches"
+										)
+									);
+
+									switch (adminBatchChoice) {
+										case 1:
+											//-------------------------------Create a Batch--------------------------------------
+											var batchDoWhile = true;
+											do {
+												var batchName = prompt("Enter the Batch Name: ");
+
+												var viewCourse = "";
+												for (var c of courseList) {
+													viewCourse +=
+														".Course Id - " +
+														c.course_Id +
+														"  " +
+														".Course Name - " +
+														c.course_Name +
+														"  " +
+														".Course Fees - " +
+														c.course_Fees +
+														"\n";
+												}
+												alert(viewCourse);
+
+												var batchCourse = prompt(
+													"Enter a Course which you want to add in the batch: "
+												);
+
+												var courseInd = -1;
+												for (var c of courseList) {
+													if (batchCourse == c.course_Name) {
+														courseInd = 0;
+														break;
+													}
+												}
+
+												if (courseInd == -1) {
+													alert("Invalid course name !!!");
+												} else {
+													var batchObject = {
+														batch_Id: batchId++,
+														batch_Name: batchName,
+														batch_Course: batchCourse,
+													};
+													batchList.push(batchObject);
+												}
+												if (
+													parseInt(
+														prompt(
+															"Do still want to continue with \n1. Create Batch \n2. Exit"
+														)
+													) == 2
+												) {
+													batchDoWhile = false;
+												}
+											} while (batchDoWhile);
+
+											break;
+
+										case 2:
+											//-------------------------------View Batch List--------------------------------------
+											var viewBatch = "";
+											for (var b of batchList) {
+												viewBatch +=
+													".Batch Id - " +
+													b.batch_Id +
+													"  " +
+													".Batch Name - " +
+													b.batch_Name +
+													"  " +
+													".Course in Batch - " +
+													b.batch_Course +
+													"\n";
+											}
+											alert(viewBatch);
+											break;
+									}
+									if (
+										parseInt(
+											prompt(
+												"Do still want to continue with \n1. Manage Batch \n2. Exit"
+											)
+										) == 2
+									) {
+										adminBatchDoWhile = false;
+									}
+								} while (adminBatchDoWhile);
+								break;
+
+							case 3:
+								//-------------------------------Manage Student--------------------------------------
+
+								var adminStudentDoWhile = true;
+								do {
+									var adminStudentChoice = parseInt(
+										prompt(
+											"Enter your choice: \n1. Register a Student \n2. View Students"
+										)
+									);
+
+									switch (adminStudentChoice) {
+										case 1:
+											//-------------------------------Register a Student--------------------------------------
+											var studentDoWhile = true;
+											do {
+												var studentName = prompt("Enter Name: ");
+												var studentUsername = prompt("Enter Username: ");
+												var studentPassword = prompt("Enter Password: ");
+
+												var studentCourseList = [];
+												var totalFees = 0;
+												var studentCourseDoWhile = true;
+												do {
+													var viewCourse = "";
+													for (var c of courseList) {
+														viewCourse +=
+															".Course Id - " +
+															c.course_Id +
+															"  " +
+															".Course Name - " +
+															c.course_Name +
+															"  " +
+															".Course Fees - " +
+															c.course_Fees +
+															"\n";
+													}
+													alert(viewCourse);
+													var studentCourse = prompt("Enter Course Name: ");
+													var courseInd = -1;
+													for (var c of courseList) {
+														if (studentCourse == c.course_Name) {
+															courseInd = 0;
+															totalFees += c.course_Fees;
+															break;
+														}
+													}
+													if (courseInd == -1) {
+														alert("Invalid course name !!!");
+													} else {
+														studentCourseList.push(studentCourse);
+													}
+
+													if (
+														parseInt(
+															prompt(
+																"Do still want to continue with \n1. Enter Course \n2. Exit"
+															)
+														) == 2
+													) {
+														studentCourseDoWhile = false;
+													}
+												} while (studentCourseDoWhile);
+
+												var studentBatchList = [];
+												var studentBatchDoWhile = true;
+												do {
+													var viewBatch = "";
+													for (var b of batchList) {
+														viewBatch +=
+															".Batch Id - " +
+															b.batch_Id +
+															"  " +
+															".Batch Name - " +
+															b.batch_Name +
+															"  " +
+															".Course in Batch - " +
+															b.batch_Course +
+															"\n";
+													}
+													alert(viewBatch);
+													var studentBatch = prompt("Enter Batch Id: ");
+													var batchInd = -1;
+													for (var b of batchList) {
+														if (studentBatch == b.batch_Id) {
+															batchInd = b.batch_Name;
+															break;
+														}
+													}
+													if (batchInd == -1) {
+														alert("Invalid Batch id !!!");
+													} else {
+														studentBatchList.push(batchInd);
+													}
+
+													if (
+														parseInt(
+															prompt(
+																"Do still want to continue with \n1. Enter Batch \n2. Exit"
+															)
+														) == 2
+													) {
+														studentBatchDoWhile = false;
+													}
+												} while (studentBatchDoWhile);
+
+												var totalInstallment = parseInt(
+													prompt("Enter how many installments ?")
+												);
+												var feesPerInstallment = totalFees / totalInstallment;
+												var feesBunch = [];
+												var installment = {
+													payment_id: 1,
+													payment: feesPerInstallment,
+													status: "paid",
+												};
+												feesBunch.push(installment);
+
+												for (var i = 2; i <= totalInstallment; i++) {
+													var installment = {
+														payment_id: i,
+														payment: feesPerInstallment,
+														status: "pending",
+													};
+													feesBunch.push(installment);
+												}
+
+												var studentData = {
+													student_id: studentId++,
+													student_name: studentName,
+													student_username: studentUsername,
+													student_password: studentPassword,
+													total_fees: totalFees,
+													total_installment: totalInstallment,
+													per_installment: feesPerInstallment,
+													remaining_fees: totalFees - feesPerInstallment,
+													remaining_installment: totalInstallment - 1,
+													status: "active",
+													fees_bunch: feesBunch,
+												};
+												studentList.push(studentData);
+
+												if (
+													parseInt(
+														prompt(
+															"Do still want to continue with \n1. Register a Student \n2. Exit"
+														)
+													) == 2
+												) {
+													studentDoWhile = false;
+												}
+											} while (studentDoWhile);
+											break;
+
+										case 2:
+											//-------------------------------View Students--------------------------------------
+											var studentOutputString = "";
+											for (var s of studentList) {
+												studentOutputString +=
+													".Student Id - " +
+													s.student_id +
+													"  " +
+													".Name - " +
+													s.student_name +
+													"  " +
+													".Username - " +
+													s.student_username +
+													"  " +
+													"\n.Total Fees - " +
+													s.total_fees +
+													"  " +
+													".Total Installments - " +
+													s.total_installment +
+													"  " +
+													".Fees per Installment - " +
+													s.per_installment +
+													"  " +
+													"\n.Remaining Installments - " +
+													s.remaining_installment +
+													"  " +
+													".Remaining Fees - " +
+													s.remaining_fees +
+													"  " +
+													".Status - " +
+													s.status +
+													"\n";
+											}
+											alert(studentOutputString);
+											break;
+									}
+									if (
+										parseInt(
+											prompt(
+												"Do still want to continue with \n1. Manage Student \n2. Exit"
+											)
+										) == 2
+									) {
+										adminStudentDoWhile = false;
+									}
+								} while (adminStudentDoWhile);
+								break;
+							case 4:
+								//-------------------------------Payment Collection--------------------------------------
+								var studentPaymentDoWhile = true;
+								do {
+									var studentOutputString = "";
+									for (var s of studentList) {
+										studentOutputString +=
+											".Student Id - " +
+											s.student_id +
+											"  " +
+											".Name - " +
+											s.student_name +
+											"  " +
+											".Remaining Installments - " +
+											s.remaining_installment +
+											"  " +
+											".Remaining Fees - " +
+											s.remaining_fees +
+											"\n";
+									}
+									alert(studentOutputString);
+									var studentInputId = parseInt(
+										prompt(
+											"Enter Student Id from the above data whose fees you want to add ?"
+										)
+									);
+									var studentInputFeesBunch = -1;
+									for (var s of studentList) {
+										if (studentInputId == s.student_id) {
+											studentInputFeesBunch = s.fees_bunch;
+											for (var f of studentInputFeesBunch) {
+												if (f.status == "pending") {
+													f.status = "paid";
+													s.remaining_installment -= 1;
+													s.remaining_fees -= s.per_installment;
+													alert("Payment Collected Successfully !!!");
+													break;
+												}
+											}
+											break;
+										}
+									}
+									if (studentInputFeesBunch == -1) {
+										alert("Invalid student id !!!");
+									}
+									if (
+										parseInt(
+											prompt(
+												"Do still want to continue with \n1. Payment Collection \n2. Exit"
+											)
+										) == 2
+									) {
+										studentPaymentDoWhile = false;
+									}
+								} while (studentPaymentDoWhile);
+								break;
+
+							default:
+								alert("Enter appropriate choice..!!!");
+								break;
+						}
+						if (
+							parseInt(
+								prompt("Do still want to continue with \n1. Admin \n2. Exit")
+							) == 2
+						) {
+							adminDoWhile = false;
+						}
+					} while (adminDoWhile);
+				}
+				break;
+
+			case 2:
+				//-------------------------------Student Section--------------------------------------
+				var studentLoginUsername = prompt("Enter your Student Username: ");
+				var studentFlag = 0;
+				for (var s of studentList) {
+					if (studentLoginUsername == s.student_username) {
+						studentFlag = 1;
+						var studentUserPassword = prompt("Enter your Student Password: ");
+						if (studentUserPassword == s.student_password) {
+							studentFlag = 2;
+							alert("Login Successfull, Welcome to Student Side");
+							alert("Show installment structure: ");
+							var outputInstallmentString = "";
+							for (var p of s.fees_bunch) {
+								outputInstallmentString +=
+									".Payment Id - " +
+									p.payment_id +
+									"  " +
+									".Payment - " +
+									p.payment +
+									"  " +
+									".Status - " +
+									p.status +
+									"\n";
+							}
+							alert(outputInstallmentString);
+							break;
+						}
+					}
+				}
+				if (studentFlag == 0) {
+					alert("Invalid Student UserName !!!");
+				} else if (studentFlag == 1) {
+					alert("Invalid Student Password !!!");
+				}
+
+				break;
+
+			case 3:
+				//-------------------------------Exit from Portal--------------------------------------
+				alert("Thank You! for visiting our system...");
+				doWhile = false;
+				break;
+			default:
+				alert("Enter appropriate choice..!!!");
+				break;
+		}
+	} while (doWhile);
+</script>

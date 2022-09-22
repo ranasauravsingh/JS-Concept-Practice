@@ -1,0 +1,77 @@
+<script>
+	/*
+				1
+				2	3
+				4	5	6	7
+				8	9	10	11	12	13	14	15
+
+				ith level = 2 ^ i elements
+	
+	*/
+	var data = [];
+	var numReg = /^\d+$/;
+
+	function checkNum(inp) {
+		//----------------------------------------Check Number--------------------------------------
+		var num = prompt(inp);
+		if (!num.match(numReg)) {
+			num = checkNum(inp);
+		}
+		return parseInt(num);
+	}
+
+	function addData(i, num) {
+		// ---------------------------------------Inserting data-----------------------------------------
+		if (i <= num) {
+			data.push(" Saurav" + i);
+			i++;
+			addData(i, num);
+		}
+		return;
+	}
+
+	function names(nameStart, nameEnd, output, num) {
+		// --------------------------------------Names from the data------------------------------------
+		if (nameStart < nameEnd) {
+			output += "," + data[nameStart - 1];
+			nameStart++;
+			if (nameStart > num) {
+				return output;
+			}
+			output = names(nameStart, nameEnd, output, num);
+		}
+		return output;
+	}
+
+	function levels(levelStart, levelEnd, num) {
+		// ---------------------------------------Level for the data------------------------------------
+		if (levelStart <= levelEnd) {
+			var outputString = "";
+			var result = names(
+				2 ** levelStart,
+				2 * 2 ** levelStart,
+				outputString,
+				num
+			);
+			document.write("Level" + "-" + levelStart + "-" + result + "<br/>");
+			levelStart++;
+			levels(levelStart, levelEnd, num);
+		}
+	}
+
+	function main() {
+		// --------------------------------------Main function----------------------------------------
+		var num = checkNum("How many names you want to add: ");
+		if (num < 2) {
+			alert("Enter the count more than 1 !!!");
+		} else {
+			var level = Math.log2(num);
+
+			addData(1, num);
+
+			levels(0, level, num);
+		}
+	}
+
+	main();
+</script>

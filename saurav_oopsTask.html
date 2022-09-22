@@ -1,0 +1,393 @@
+<script>
+	class ProductModel {
+		prod_id;
+		prod_name;
+
+		constructor(prod_id, prod_name) {
+			this.prod_id = prod_id;
+			this.prod_name = prod_name;
+		}
+	}
+
+	class LocalStorage {
+		localStorage_setitem(list) {
+			localStorage.setItem("Product", JSON.stringify(list));
+		}
+
+		localStorage_getitem() {
+			if (localStorage.getItem("Product") == null) {
+				var list = [];
+				var pId = 1;
+			} else {
+				var list = JSON.parse(localStorage.getItem("Product"));
+				var pId = list[list.length - 1].prod_id + 1;
+			}
+			return [list, pId];
+		}
+	}
+
+	class IdSearch {
+		idSearch(index, list, key) {
+			//-------------------------------Id Search--------------------------------------
+			var flag = -1;
+			for (var i of list) {
+				if (index == i[key]) {
+					flag = i;
+					break;
+				}
+			}
+			return flag;
+		}
+	}
+
+	class ViewProduct {
+		viewProduct(list, start, output) {
+			//-------------------------------View Product--------------------------------------
+			output +=
+				"Product Id: " +
+				list[start].prod_id +
+				" - " +
+				"Product Name: " +
+				list[start].prod_name +
+				"\n";
+
+			if (start < list.length - 1) {
+				start++;
+				output = this.viewProduct(list, start, output);
+			}
+
+			return output;
+		}
+	}
+
+	class DeleteProduct extends ViewProduct {
+		deleteProduct(list) {
+			//------------------------Delete Product---------------------------------
+			alert(this.viewProduct(list, 0, ""));
+
+			var deleteId = parseInt(
+				prompt("Enter the Product id you want to Update: ")
+			);
+
+			var searchId = new IdSearch();
+			var flag = searchId.idSearch(deleteId, list, "prod_id");
+
+			if (flag == -1) {
+				alert("Invalid Product Id !!!");
+			} else {
+				list.splice(flag.prod_id - 1, 1);
+				var local = new LocalStorage();
+				local.localStorage_setitem(list);
+				alert("Product data deleted successfully !!!");
+				alert(this.viewProduct(list, 0, ""));
+			}
+			return list;
+		}
+	}
+
+	class DeleteData extends DeleteProduct {
+		deleteData(list) {
+			// ------------------------------Delete Function-----------------------------------
+			var deleteChoice = parseInt(
+				prompt("Which data you want to Delete: \n1. Product \n2. Exit")
+			);
+
+			switch (deleteChoice) {
+				case 1:
+					list = this.deleteProduct(list);
+					break;
+
+				case 2:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.deleteData(list);
+		}
+	}
+
+	class UpdateProduct extends ViewProduct {
+		updateProduct(list) {
+			//-------------------------------Update Product--------------------------------------
+			var updateChoice = parseInt(
+				prompt("What do you want to Update? : \n1. Product Name")
+			);
+
+			switch (updateChoice) {
+				case 1:
+					//------------------------Update Product Name---------------------------------
+					alert(this.viewProduct(list, 0, ""));
+
+					var updateId = parseInt(
+						prompt("Enter the Product id you want to Update: ")
+					);
+
+					var searchId = new IdSearch();
+					var flag = searchId.idSearch(updateId, list, "prod_id");
+
+					if (flag == -1) {
+						alert("Invalid Product Id !!!");
+					} else {
+						flag.prod_name = prompt("Enter new Product Name: ");
+						var local = new LocalStorage();
+						local.localStorage_setitem(list);
+
+						alert("Product Name updated successfully !!!");
+						alert(this.viewProduct(list, 0, ""));
+					}
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			return list;
+		}
+	}
+
+	class UpdateData extends UpdateProduct {
+		updateData(list) {
+			// ------------------------------Update Function-----------------------------------
+			var updateChoice = parseInt(
+				prompt("Which data you want to Update: \n1. Product \n2. Exit")
+			);
+
+			switch (updateChoice) {
+				case 1:
+					list = this.updateProduct(list);
+					break;
+
+				case 2:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.updateData(list);
+		}
+	}
+
+	class SearchProduct extends IdSearch {
+		searchProduct(list) {
+			//-------------------------------Search Product--------------------------------------
+			var searchChoice = parseInt(
+				prompt(
+					"Enter your Search choice: \n1. Search by Product Id \n2. Search by Product Name"
+				)
+			);
+			switch (searchChoice) {
+				case 1:
+					//-------------------------Search by Product Id---------------------------------
+					var searchId = parseInt(
+						prompt("Enter the Product id you want to search: ")
+					);
+					var flag = this.idSearch(searchId, list, "prod_id");
+
+					if (flag == -1) {
+						alert("Invalid Product Id !!!");
+					} else {
+						alert(
+							"Product Id: " +
+								flag.prod_id +
+								" - " +
+								"Product Name: " +
+								flag.prod_name +
+								"\n"
+						);
+					}
+					break;
+
+				case 2:
+					//------------------------Search by Product Name---------------------------------
+					var searchName = prompt(
+						"Enter the Product Name you want to search: "
+					);
+					var flag = -1;
+					for (var i of list) {
+						if (searchName == i.prod_name) {
+							flag = i;
+							break;
+						}
+					}
+					if (flag == -1) {
+						alert("Invalid Product Name !!!");
+					} else {
+						alert(
+							"Product Id: " +
+								flag.prod_id +
+								" - " +
+								"Product Name: " +
+								flag.prod_name +
+								"\n"
+						);
+					}
+					break;
+
+				default:
+					alert("Enter appropriate Search choice !!!");
+					break;
+			}
+		}
+	}
+
+	class SearchData extends SearchProduct {
+		searchData(list) {
+			// ------------------------------Search Function-----------------------------------
+			var searchChoice = parseInt(
+				prompt("What you want to Search: \n1. Product \n2. Exit")
+			);
+
+			switch (searchChoice) {
+				case 1:
+					this.searchProduct(list);
+					break;
+
+				case 2:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.searchData(list);
+		}
+	}
+
+	class ViewData extends ViewProduct {
+		viewData(list) {
+			// ------------------------------View Function-----------------------------------
+			var viewChoice = parseInt(
+				prompt("What you want to View: \n1. Product List \n2. Exit")
+			);
+
+			switch (viewChoice) {
+				case 1:
+					alert(this.viewProduct(list, 0, ""));
+					break;
+
+				case 2:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.viewData(list);
+		}
+	}
+
+	class InsertProduct extends ProductModel {
+		// constructor(prod_id, prod_name){
+		// 	super(prod_id, prod_name);
+		// }
+
+		insertProduct(list, id) {
+			//-------------------------------Insert Product--------------------------------------
+
+			var productName = prompt("Enter Product Name:");
+
+			var dummy = new ProductModel(id, productName);
+			list.push(dummy);
+
+			var local = new LocalStorage();
+			local.localStorage_setitem(list);
+
+			alert("Product added successfully !!!");
+			return list;
+		}
+	}
+
+	class InsertData extends InsertProduct {
+		insertData(list, id) {
+			// ------------------------------Insert Function-----------------------------------
+			var insertChoice = parseInt(
+				prompt("What you want to Insert: \n1. Product \n2. Exit")
+			);
+
+			switch (insertChoice) {
+				case 1:
+					list = this.insertProduct(list, id);
+					break;
+
+				case 2:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.insertData(list, id);
+		}
+	}
+
+	class MainClass {
+		main(list, id) {
+			// -----------------------------------Main Function----------------------------
+			var choice = parseInt(
+				prompt(
+					"Enter your choice: \n1. Insert \n2. View \n3. Search \n4. Update \n5. Delete \n6. Exit"
+				)
+			);
+
+			switch (choice) {
+				case 1:
+					var dataInsert = new InsertData();
+					dataInsert.insertData(list, id++);
+					break;
+
+				case 2:
+					var dataView = new ViewData();
+					dataView.viewData(list);
+					break;
+
+				case 3:
+					var dataSearch = new SearchData();
+					dataSearch.searchData(list);
+					break;
+
+				case 4:
+					var dataUpdate = new UpdateData();
+					dataUpdate.updateData(list);
+					break;
+
+				case 5:
+					var dataDelete = new DeleteData();
+					dataDelete.deleteData(list);
+					break;
+
+				case 6:
+					alert("Thank you! for visiting our system...");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.main(list, id);
+		}
+	}
+
+	//  The data is stored in this fashion "[ {_, _},{}";
+	// [ product]
+	// var db = [];
+	// localStorage.clear();
+
+	var local = new LocalStorage();
+	var db = local.localStorage_getitem();
+	var task = new MainClass();
+	task.main(db[0], db[1]);
+</script>

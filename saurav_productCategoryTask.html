@@ -1,0 +1,472 @@
+<script>
+	class CategoryModel {
+		cat_id;
+		cat_name;
+		constructor(cat_id, cat_name) {
+			this.cat_id = cat_id;
+			this.cat_name = cat_name;
+		}
+	}
+	class ProductModel {
+		prod_id;
+		prod_name;
+		cat_Model;
+		constructor(prod_id, prod_name, cat_Model) {
+			this.prod_id = prod_id;
+			this.prod_name = prod_name;
+			this.cat_Model = cat_Model;
+		}
+	}
+
+	class MainClass {
+		cId = 1;
+		pId = 1;
+
+		viewCategory(list, start, output) {
+			//-------------------------------View Category--------------------------------------
+			output +=
+				"Category Id: " +
+				list[start].cat_id +
+				" - " +
+				"Category Name: " +
+				list[start].cat_name +
+				"\n";
+
+			if (start < list.length - 1) {
+				start++;
+				output = this.viewCategory(list, start, output);
+			}
+
+			return output;
+		}
+
+		viewProduct(list, start, output) {
+			//-------------------------------View Product--------------------------------------
+			output +=
+				"Product Id: " +
+				list[start].prod_id +
+				" - " +
+				"Product Name: " +
+				list[start].prod_name +
+				" - " +
+				"Category Name: " +
+				list[start].cat_Model.cat_name +
+				"\n";
+
+			if (start < list.length - 1) {
+				start++;
+				output = this.viewProduct(list, start, output);
+			}
+
+			return output;
+		}
+
+		idSearch(index, list, key) {
+			//-------------------------------Id Search--------------------------------------
+			var flag = -1;
+			for (var i of list) {
+				if (index == i[key]) {
+					flag = i;
+					break;
+				}
+			}
+			return flag;
+		}
+
+		updateCategory(list) {
+			//-------------------------------Update Category--------------------------------------
+			var updateChoice = parseInt(
+				prompt("What do you want to Update?: \n1. Category Name")
+			);
+
+			switch (updateChoice) {
+				case 1:
+					//------------------------Update Category Name----------------------------------
+					alert(this.viewCategory(list, 0, ""));
+
+					var updateId = parseInt(
+						prompt("Enter the Category id you want to Update: ")
+					);
+
+					var flag = this.idSearch(updateId, list, "cat_id");
+
+					if (flag == -1) {
+						alert("Invalid Category Id !!!");
+					} else {
+						flag.cat_name = prompt("Enter new Category Name: ");
+						alert("Category Data updated successfully !!!");
+
+						alert(this.viewCategory(list, 0, ""));
+					}
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			return list;
+		}
+
+		updateProduct(list) {
+			//-------------------------------Update Product--------------------------------------
+			var updateChoice = parseInt(
+				prompt(
+					"What do you want to Update? : \n1. Product Name \n2. Product Category"
+				)
+			);
+
+			switch (updateChoice) {
+				case 1:
+					//------------------------Update Product Name---------------------------------
+					alert(this.viewProduct(list[1], 0, ""));
+
+					var updateId = parseInt(
+						prompt("Enter the Product id you want to Update: ")
+					);
+
+					var flag = this.idSearch(updateId, list[1], "prod_id");
+
+					if (flag == -1) {
+						alert("Invalid Product Id !!!");
+					} else {
+						flag.prod_name = prompt("Enter new Product Name: ");
+
+						alert("Product Name updated successfully !!!");
+
+						alert(this.viewProduct(list[1], 0, ""));
+					}
+					break;
+
+				case 2:
+					//------------------------Update Product Category--------------------------------
+					alert(this.viewProduct(list[1], 0, ""));
+
+					var updateId = parseInt(
+						prompt("Enter the Product id you want to Update: ")
+					);
+
+					var flag = this.idSearch(updateId, list[1], "prod_id");
+
+					if (flag == -1) {
+						alert("Invalid Product Id !!!");
+					} else {
+						alert(this.viewCategory(list[0], 0, ""));
+
+						var categoryId = parseInt(
+							prompt("Enter the new Product's Category Id: ")
+						);
+
+						var flag1 = this.idSearch(categoryId, list[0], "cat_id");
+
+						if (flag1 != -1) {
+							flag.cat_Model = flag1;
+							alert("Product's Category updated successfully !!!");
+
+							alert(this.viewProduct(list[1], 0, ""));
+						} else {
+							alert("Invalid Category Id !!!");
+						}
+					}
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			return list[1];
+		}
+
+		updateData(list) {
+			// ------------------------------Update Function-----------------------------------
+			var updateChoice = parseInt(
+				prompt(
+					"Which data you want to Update: \n1. Category \n2. Product \n3. Exit"
+				)
+			);
+
+			switch (updateChoice) {
+				case 1:
+					list[0] = this.updateCategory(list[0]);
+					break;
+
+				case 2:
+					list[1] = this.updateProduct(list);
+					break;
+
+				case 3:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.updateData(list);
+		}
+
+		viewProductData(object) {
+			//-------------------------------View Product Data--------------------------------------
+			alert(
+				"Product Id: " +
+					object.prod_id +
+					" - " +
+					"Product Name: " +
+					object.prod_name +
+					" - " +
+					"Category Name: " +
+					object.cat_Model.cat_name +
+					"\n"
+			);
+		}
+
+		viewCategoryData(object) {
+			//-------------------------------View Category Data--------------------------------------
+			alert(
+				"Category Id: " +
+					object.cat_id +
+					" - " +
+					"Category Name: " +
+					object.cat_name +
+					"\n"
+			);
+		}
+
+		searchCategory(list) {
+			//-------------------------------Search Category--------------------------------------
+			var searchChoice = parseInt(
+				prompt("Enter your Search choice: \n1. Search by Id ")
+			);
+			switch (searchChoice) {
+				case 1:
+					//------------------------Search by Category Id--------------------------------
+					var searchId = parseInt(
+						prompt("Enter the Category id you want to search: ")
+					);
+					var flag = this.idSearch(searchId, list, "cat_id");
+
+					if (flag == -1) {
+						alert("Invalid Category Id !!!");
+					} else {
+						this.viewCategoryData(flag);
+					}
+					break;
+
+				default:
+					alert("Enter appropriate Search choice !!!");
+					break;
+			}
+		}
+
+		searchProduct(list) {
+			//-------------------------------Search Product--------------------------------------
+			var searchChoice = parseInt(
+				prompt(
+					"Enter your Search choice: \n1. Search by Product Id \n2. Search by Product Name"
+				)
+			);
+			switch (searchChoice) {
+				case 1:
+					//-------------------------Search by Product Id---------------------------------
+					var searchId = parseInt(
+						prompt("Enter the Product id you want to search: ")
+					);
+					var flag = this.idSearch(searchId, list, "prod_id");
+
+					if (flag == -1) {
+						alert("Invalid Product Id !!!");
+					} else {
+						this.viewProductData(flag);
+					}
+					break;
+
+				case 2:
+					//------------------------Search by Product Name---------------------------------
+					var searchName = prompt(
+						"Enter the Product Name you want to search: "
+					);
+					var flag = -1;
+					for (var i of list) {
+						if (searchName == i.prod_name) {
+							flag = i;
+							break;
+						}
+					}
+					if (flag == -1) {
+						alert("Invalid Product Name !!!");
+					} else {
+						this.viewProductData(flag);
+					}
+					break;
+
+				default:
+					alert("Enter appropriate Search choice !!!");
+					break;
+			}
+		}
+
+		searchData(list) {
+			// ------------------------------Search Function-----------------------------------
+			var searchChoice = parseInt(
+				prompt("What you want to Search: \n1. Category \n2. Product \n3. Exit")
+			);
+
+			switch (searchChoice) {
+				case 1:
+					this.searchCategory(list[0]);
+					break;
+
+				case 2:
+					this.searchProduct(list[1]);
+					break;
+
+				case 3:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.searchData(list);
+		}
+
+		viewData(list) {
+			// ------------------------------View Function-----------------------------------
+			var viewChoice = parseInt(
+				prompt(
+					"What you want to View: \n1. Category List \n2. Product List \n3. Exit"
+				)
+			);
+
+			switch (viewChoice) {
+				case 1:
+					alert(this.viewCategory(list[0], 0, ""));
+					break;
+
+				case 2:
+					alert(this.viewProduct(list[1], 0, ""));
+					break;
+
+				case 3:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.viewData(list);
+		}
+
+		insertCategory(list, id) {
+			//-------------------------------Insert Category--------------------------------------
+			var categoryName = prompt("Enter Category Name: ");
+
+			var dummy = new CategoryModel(id, categoryName);
+			list.push(dummy);
+
+			alert("Category added successfully !!!");
+			return list;
+		}
+
+		insertProduct(list, id) {
+			//-------------------------------Insert Product--------------------------------------
+			alert(this.viewCategory(list[0], 0, ""));
+
+			var categoryId = parseInt(prompt("Enter the Product's Category Id: "));
+
+			var flag = this.idSearch(categoryId, list[0], "cat_id");
+
+			if (flag != -1) {
+				var productName = prompt("Enter Product Name:");
+				var dummy = new ProductModel(id, productName, flag);
+				list[1].push(dummy);
+
+				this.pId++;
+				alert("Product added successfully !!!");
+			} else {
+				alert("Invalid Category Id !!!");
+			}
+
+			return list[1];
+		}
+
+		insertData(list) {
+			// ------------------------------Insert Function-----------------------------------
+			var insertChoice = parseInt(
+				prompt("What you want to Insert: \n1. Category \n2. Product \n3. Exit")
+			);
+
+			switch (insertChoice) {
+				case 1:
+					list[0] = this.insertCategory(list[0], this.cId++);
+					break;
+
+				case 2:
+					list[1] = this.insertProduct(list, this.pId);
+					break;
+
+				case 3:
+					alert("Thank you!");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.insertData(list);
+		}
+
+		main(list) {
+			// -----------------------------------Main Function----------------------------
+			var choice = parseInt(
+				prompt(
+					"Enter your choice: \n1. Insert \n2. View \n3. Search \n4. Update \n5. Delete \n6. Exit"
+				)
+			);
+
+			switch (choice) {
+				case 1:
+					this.insertData(list);
+					break;
+
+				case 2:
+					this.viewData(list);
+					break;
+
+				case 3:
+					this.searchData(list);
+					break;
+
+				case 4:
+					this.updateData(list);
+					break;
+
+				case 5:
+					this.deleteData(list);
+					break;
+
+				case 6:
+					alert("Thank you! for visiting our system...");
+					return;
+					break;
+
+				default:
+					alert("Please select appropriate choice. Thank You!");
+					break;
+			}
+			this.main(list);
+		}
+	}
+
+	//  The data is stored in this fashion "[ [{}, {}, {}], [{_, _, },{}] ]";
+	// [ [category] , [product] ]
+	var db = [[], []];
+
+	var task = new MainClass();
+	task.main(db);
+</script>

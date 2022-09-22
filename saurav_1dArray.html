@@ -1,0 +1,482 @@
+<script>
+	var id = [];
+	var nam = [];
+	var number = [];
+	var email = [];
+	var password = [];
+	var birthDate = [];
+	var price = [];
+	var quantity = [];
+	var sumTotal = [];
+	var total = [];
+
+	var GST = 0;
+	var n = parseInt(prompt(" Enter the size of data ?"));
+	var startingId = parseInt(prompt("From where do you want to start the id ?"));
+
+	var flag = 0;
+	var attempts = 6;
+	var nameReg = /^[a-zA-Z]*$/;
+	var numberReg = /^\d{10}$/g;
+	var emailReg = /\S+@\S+\.\S+/g;
+	var birthDateReg =
+		/^((0?[1-9]|[12][0-9]|3[01])[- /.](0?[1-9]|1[012])[- /.](19|20)?[0-9]{2})\S*$/;
+
+	var passwordReg = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{9,12}$/;
+
+	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	const numbers = "0123456789";
+	const emailChar = "abcdefghijklmnopqrstuvwxyz";
+	const passwords =
+		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@%+-'!*#$?^;:(){}[]/";
+
+	var doWhile = 0;
+	do {
+		var choice = parseInt(
+			prompt(
+				"What do want to do in your records ? \n1. Insert \n2. View \n3. Search \n4. Update \n5. Delete \n6. Exit"
+			)
+		);
+
+		if (choice == 1) {
+			//--------------------------INSERTION--------------------------------------
+
+			for (var i = 0; i < n; i++) {
+				// ID insert---
+				id.push(startingId++);
+
+				// Name insert---
+				attempts = 6;
+				flag = 0;
+				do {
+					var na = prompt("Enter the Name: (Atleast 3 characters)");
+					if (na.length < 3 || !nameReg.test(na)) {
+						alert("Invalid Name !!!");
+						attempts--;
+						if (attempts == 2) {
+							alert("You are left with 2 more attempts... \nMake it count !!!");
+						}
+					} else {
+						flag = 1;
+					}
+				} while (attempts != 0 && flag == 0);
+
+				// Random Name generate---
+				var len = 3 - na.length;
+				const charactersLength = characters.length;
+				for (var i = 0; i < len; i++) {
+					na += characters.charAt(Math.floor(Math.random() * charactersLength));
+				}
+				nam.push(na);
+
+				// Number insert---
+				attempts = 6;
+				flag = 0;
+				do {
+					var num = parseInt(
+						prompt("Enter the Number: (Number should be of 10 digits)")
+					);
+					if (!numberReg.test(num)) {
+						alert("Invalid Mobile Number !!!");
+						attempts--;
+						if (attempts == 2) {
+							alert("You are left with 2 more attempts... \nMake it count !!!");
+						}
+					} else {
+						flag = 1;
+					}
+				} while (attempts != 0 && flag == 0);
+
+				// Random Number generate---
+				// var result = "";
+				// var len = 10 - num.toString().length;
+				// for (var i = 0; i < len; i++) {
+				//   result += (Math.floor(Math.random() * 10) + 1).toString();
+				// }
+				// number.push(num.toString() + result);
+				number.push(num);
+
+				// Email insert---
+				attempts = 6;
+				flag = 0;
+				do {
+					var em = prompt("Enter the email: ");
+					if (!emailReg.test(em)) {
+						alert("Invalid Email'Id !!!");
+						attempts--;
+						if (attempts == 2) {
+							alert("You are left with 2 more attempts... \nMake it count !!!");
+						}
+					} else {
+						flag = 1;
+					}
+				} while (attempts != 0 && flag == 0);
+
+				email.push(em);
+
+				// Password insert---
+				attempts = 6;
+				flag = 0;
+				do {
+					var pass = prompt(
+						"Enter the password: \n(Password must contain \natleast 1 alphabet, \natleast 1 number and \natleast1 special character & \nlength should be in range of 8 to 12 chars)"
+					);
+					if (!passwordReg.test(pass)) {
+						alert("Invalid Password !!!");
+						attempts--;
+						if (attempts == 2) {
+							alert("You are left with 2 more attempts... \nMake it count !!!");
+						}
+					} else {
+						flag = 1;
+					}
+				} while (attempts != 0 && flag == 0);
+
+				// Random Password generate---
+				// var len = 3 - pass.length;
+				// var result = "";
+				// for (var i = 0, n = passwords.length; i < len; ++i) {
+				//   result += passwords.charAt(Math.floor(Math.random() * n));
+				// }
+				// password.push(pass + result);
+				password.push(pass);
+
+				// Birth Date insert---
+				attempts = 6;
+				flag = 0;
+				do {
+					var dob = prompt("Enter the birthdate: ");
+					if (!birthDateReg.test(dob)) {
+						alert("Invalid Birth Date !!!");
+						attempts--;
+						if (attempts == 2) {
+							alert("You are left with 2 more attempts... \nMake it count !!!");
+						}
+					} else {
+						flag = 1;
+					}
+				} while (attempts != 0 && flag == 0);
+				birthDate.push(dob);
+
+				// Price insert---
+				price.push(prompt("Enter the price: "));
+
+				// Quantity insert---
+				quantity.push(prompt("Enter the quantity: "));
+
+				sumTotal.push(price[i] * quantity[i]);
+
+				// GST insert---
+				GST = prompt("Enter GST rate: ");
+
+				total.push(sumTotal[i] + parseInt((sumTotal[i] * GST) / 100));
+			}
+		} else if (choice == 2) {
+			//----------------------------VIEW-------------------------------------
+
+			for (var i = 0; i < n; i++) {
+				alert(
+					"ID= " +
+						id[i] +
+						"\nName= " +
+						nam[i] +
+						"\nNumber= " +
+						number[i] +
+						"\nEmail= " +
+						email[i] +
+						"\nBirth Date= " +
+						birthDate[i] +
+						"\nPrice= " +
+						price[i] +
+						"\nQuantity= " +
+						quantity[i] +
+						"\nSum Total= " +
+						sumTotal[i] +
+						"\nTotal= " +
+						total[i]
+				);
+			}
+		} else if (choice == 3) {
+			//-----------------------SEARCHING--------------------------------
+
+			var ch = -1;
+			do {
+				var search = parseInt(
+					prompt(
+						"How do you want to SEARCH in the Records ? \n1.Through NAME \n2.Through NUMBER \n3.Through PRICE range \nEnter the choice. "
+					)
+				);
+				if (search == 1) {
+					var mk = -1;
+					do {
+						var searchName = prompt("Enter the Name you want to Search: ");
+						for (var i = 0; i < n; i++) {
+							if (searchName == nam[i]) {
+								mk = i;
+								alert(
+									"ID= " +
+										id[mk] +
+										"\nName= " +
+										nam[mk] +
+										"\nNumber= " +
+										number[mk] +
+										"\nEmail= " +
+										email[mk] +
+										"\nBirth Date= " +
+										birthDate[mk] +
+										"\nPrice= " +
+										price[mk] +
+										"\nQuantity= " +
+										quantity[mk] +
+										"\nSum Total= " +
+										sumTotal[mk] +
+										"\nTotal= " +
+										total[mk]
+								);
+							}
+						}
+						if (mk == -1) {
+							alert("Sorry!, This name is not in out records...");
+
+							var conti = parseInt(
+								prompt(
+									"Do still want to continue with \n1. another name \n2. Exit"
+								)
+							);
+							if (conti == 2) {
+								mk = 0;
+							}
+						}
+					} while (mk == -1);
+				} else if (search == 2) {
+					var mk = -1;
+					do {
+						var searchNum = prompt("Enter the Number you want to Search: ");
+						for (var i = 0; i < n; i++) {
+							if (searchNum == number[i]) {
+								mk = i;
+								alert(
+									"ID=" +
+										id[mk] +
+										"\nName=" +
+										nam[mk] +
+										"\nNumber=" +
+										number[mk] +
+										"\nEmail=" +
+										email[mk] +
+										"\nBirth Date=" +
+										birthDate[mk] +
+										"\nPrice=" +
+										price[mk] +
+										"\nQuantity=" +
+										quantity[mk] +
+										"\nSum Total=" +
+										sumTotal[mk] +
+										"\nTotal=" +
+										total[mk]
+								);
+							}
+							if (mk == -1) {
+								alert("Sorry!, This number is not in out records...");
+
+								var conti = parseInt(
+									prompt(
+										"Do still want to continue with \n1. another number \n2. Exit"
+									)
+								);
+								if (conti == 2) {
+									mk = 0;
+								}
+							}
+						}
+					} while (mk == -1);
+				} else if (search == 3) {
+					var mk = -1;
+					do {
+						var upperPriceRange = prompt(
+							"Enter the Upper Price Range you want to Search: "
+						);
+						var lowerPriceRange = prompt(
+							"Enter the Lower Price Range you want to Search: "
+						);
+						for (var i = id; i < id + n; i++) {
+							if (lowerPriceRange <= price[i] && upperPriceRange >= price[i]) {
+								mk = i;
+								alert(
+									"ID=" +
+										id[mk] +
+										"\nName=" +
+										nam[mk] +
+										"\nNumber=" +
+										number[mk] +
+										"\nEmail=" +
+										email[mk] +
+										"\nBirth Date=" +
+										birthDate[mk] +
+										"\nPrice=" +
+										price[mk] +
+										"\nQuantity=" +
+										quantity[mk] +
+										"\nSum Total=" +
+										sumTotal[mk] +
+										"\nTotal=" +
+										total[mk]
+								);
+							}
+						}
+						if (mk == -1) {
+							alert("Sorry!, This price range is not in out records...");
+
+							var conti = parseInt(
+								prompt(
+									"Do still want to continue with \n1. another price range \n2. Exit"
+								)
+							);
+							if (conti == 2) {
+								mk = 0;
+							}
+						}
+					} while (mk == -1);
+				} else {
+					alert("Please select appropriate Search choice. Thank You!");
+				}
+				var ch = parseInt(
+					prompt("Do still want to continue with \n1. Search \n2. Exit")
+				);
+				if (ch == 2) {
+					ch = 0;
+				}
+			} while (ch == -1);
+		} else if (choice == 4) {
+			//----------------------------UPDATE-----------------------------------
+
+			var mk = -1;
+			do {
+				var updateID = parseInt(prompt("Enter the ID for updation: "));
+				for (var i = 0; i < n; i++) {
+					if (updateID == id[i]) {
+						mk = i;
+						alert(
+							"ID=" +
+								id[mk] +
+								"\nName=" +
+								nam[mk] +
+								"\nNumber=" +
+								number[mk] +
+								"\nEmail=" +
+								email[mk] +
+								"\nBirth Date=" +
+								birthDate[mk] +
+								"\nPrice=" +
+								price[mk] +
+								"\nQuantity=" +
+								quantity[mk] +
+								"\nSum Total=" +
+								sumTotal[mk] +
+								"\nTotal=" +
+								total[mk]
+						);
+						break;
+					}
+				}
+				if (mk == -1) {
+					alert("Sorry!, This ID is not in out records...");
+				}
+			} while (mk == -1);
+
+			var updateChoice = parseInt(
+				prompt(
+					"What do you want to UPDATE in the Records ? \n1.NAME \n2.NUMBER \nEnter the choice. "
+				)
+			);
+
+			if (updateChoice == 1) {
+				do {
+					var na = prompt("Enter New Name: (Atleast 3 characters)");
+				} while (na.length < 3);
+				nam[mk] = na;
+			} else if (updateChoice == 2) {
+				do {
+					var num = parseInt(
+						prompt("Enter New Number: (Number should be of 10 digits)")
+					);
+				} while (num.toString().length != 10);
+				number[mk] = num;
+			} else {
+				alert("Please select appropriate Update choice. Thank You!");
+			}
+
+			alert(
+				"ID=" +
+					id[mk] +
+					"\nName=" +
+					nam[mk] +
+					"\nNumber=" +
+					number[mk] +
+					"\nEmail=" +
+					email[mk] +
+					"\nBirth Date=" +
+					birthDate[mk] +
+					"\nPrice=" +
+					price[mk] +
+					"\nQuantity=" +
+					quantity[mk] +
+					"\nSum Total=" +
+					sumTotal[mk] +
+					"\nTotal=" +
+					total[mk]
+			);
+		} else if (choice == 5) {
+			//----------------------------DELETE--------------------------------------
+
+			do {
+				var mk = -1;
+				var deleteID = parseInt(prompt("Enter the ID for deletion: "));
+				for (var i = 0; i < n; i++) {
+					if (deleteID == id[i]) {
+						mk = i;
+						break;
+					}
+				}
+			} while (mk == -1);
+
+			nam.splice(mk, 1);
+			number.splice(mk, 1);
+			email.splice(mk, 1);
+			password.splice(mk, 1);
+			birthDate.splice(mk, 1);
+			price.splice(mk, 1);
+			quantity.splice(mk, 1);
+			sumTotal.splice(mk, 1);
+			total.splice(mk, 1);
+
+			for (let i = 0; i < n; i++) {
+				alert(
+					"ID=" +
+						i +
+						"\nName=" +
+						nam[i] +
+						"\nNumber=" +
+						number[i] +
+						"\nEmail=" +
+						email[i] +
+						"\nBirth Date=" +
+						birthDate[i] +
+						"\nPrice=" +
+						price[i] +
+						"\nQuantity=" +
+						quantity[i] +
+						"\nSum Total=" +
+						sumTotal[i] +
+						"\nTotal=" +
+						total[i]
+				);
+			}
+		} else if (choice == 6) {
+			alert("Thank You! for visiting our system...");
+			doWhile = 1;
+		} else {
+			alert("Please select appropriate choice. Thank You!");
+		}
+	} while (doWhile == 0);
+</script>

@@ -1,0 +1,278 @@
+<script>
+	var data = [];
+	var id = 1;
+	var numReg = /^\d+$/;
+
+	function checklen(inp, len) {
+		//-------------------------------Check Length--------------------------------------
+		do {
+			var inputString = prompt(inp);
+		} while (inputString.length < len);
+		return inputString;
+	}
+
+	function checkNum(inp) {
+		//-------------------------------Check Number--------------------------------------
+		do {
+			var num = prompt(inp);
+		} while (!num.match(numReg));
+		return parseInt(num);
+	}
+
+	function checkFixNum(inp, len) {
+		//-------------------------Check Number with Fix Length-----------------------------------
+		var numDoWhile = true;
+		do {
+			var fixNumber = prompt(inp);
+			if (fixNumber.length == len) {
+				if (fixNumber.match(numReg)) {
+					return parseInt(fixNumber);
+				}
+			}
+		} while (numDoWhile);
+	}
+
+	function insertData() {
+		//-------------------------------Insert--------------------------------------
+		var insertDoWhile = true;
+		do {
+			var userName = checklen("Enter your Name: \nEnter atleast 3 chars", 3);
+			var userNumber = checkFixNum(
+				"Enter your Number: \nNumber must be a 10 digit numeric",
+				10
+			);
+			var dummy = [id++, userName, userNumber];
+			data.push(dummy);
+
+			alert("User data added successfully !!!");
+			if (
+				checkNum(
+					"Do you still want to continue with Insert: \n1. Yes \n2. No"
+				) == 2
+			) {
+				insertDoWhile = false;
+			}
+		} while (insertDoWhile);
+	}
+
+	function viewData() {
+		//-------------------------------View--------------------------------------
+		var outputString = "";
+		for (var i = 0; i < data.length; i++) {
+			outputString +=
+				"User Id: " +
+				data[i][0] +
+				" - " +
+				"User Name: " +
+				data[i][1] +
+				" - " +
+				"User Number: " +
+				data[i][2] +
+				"\n";
+		}
+		alert(outputString);
+	}
+
+	function viewSearchData(index) {
+		//-------------------------------View Search Data--------------------------------------
+		alert(
+			"User Id: " +
+				data[index][0] +
+				" - " +
+				"User Name: " +
+				data[index][1] +
+				" - " +
+				"User Number: " +
+				data[index][2] +
+				"\n"
+		);
+	}
+
+	function idSearch(index) {
+		//-------------------------------Id Search--------------------------------------
+		var flag = -1;
+		for (var i = 0; i < data.length; i++) {
+			if (index == data[i][0]) {
+				flag = i;
+				break;
+			}
+		}
+		return flag;
+	}
+
+	function searchData() {
+		//-------------------------------Search--------------------------------------
+		var searchDoWhile = true;
+
+		do {
+			var searchChoice = checkNum(
+				"Enter your Search choice: \n1. Search by Id \n2. Search by Name"
+			);
+			switch (searchChoice) {
+				case 1:
+					//-------------------------------Search by Id--------------------------------------
+					var searchId = checkNum("Enter the User id you want to search: ");
+					var flag = idSearch(searchId);
+
+					if (flag == -1) {
+						alert("Invalid User Id !!!");
+					} else {
+						viewSearchData(flag);
+					}
+					break;
+
+				case 2:
+					//-------------------------------Search by Name--------------------------------------
+					var searchName = checklen(
+						"Enter the User Name you want to search: \nEnter atleast 3 chars",
+						3
+					);
+					var flag = -1;
+					for (var i = 0; i < data.length; i++) {
+						if (searchName == data[i][1]) {
+							flag = i;
+							break;
+						}
+					}
+					if (flag == -1) {
+						alert("Invalid User Name !!!");
+					} else {
+						viewSearchData(flag);
+					}
+					break;
+				default:
+					alert("Enter appropriate Search choice !!!");
+					break;
+			}
+
+			if (
+				checkNum(
+					"Do you still want to continue with Search: \n1. Yes \n2. No"
+				) == 2
+			) {
+				searchDoWhile = false;
+			}
+		} while (searchDoWhile);
+	}
+
+	function updateData() {
+		//-------------------------------Update--------------------------------------
+		updateDoWhile = true;
+		do {
+			viewData();
+			var updateChoice = checkNum(
+				"What do you want to Update? : \n1. User Name \n2. User Number"
+			);
+
+			switch (updateChoice) {
+				case 1:
+					//-------------------------------Update Name--------------------------------------
+					var updateId = checkNum("Enter the User id you want to Update: ");
+					var flag = idSearch(updateId);
+
+					if (flag == -1) {
+						alert("Invalid User Id !!!");
+					} else {
+						data[flag][1] = checklen(
+							"Enter new Name: \nEnter atleast 3 chars",
+							3
+						);
+						alert("Data updated successfully !!!");
+					}
+					viewData();
+
+					break;
+
+				case 2:
+					//-------------------------------Update Number--------------------------------------
+					var updateId = checkNum("Enter the User id you want to Update: ");
+					var flag = idSearch(updateId);
+
+					if (flag == -1) {
+						alert("Invalid User Id !!!");
+					} else {
+						data[flag][2] = checkFixNum(
+							"Enter new Number: \nNumber must be a 10 digit numeric",
+							10
+						);
+						alert("Data updated successfully !!!");
+					}
+					viewData();
+					break;
+
+				default:
+					alert("Enter appropriate Update choice !!!");
+					break;
+			}
+
+			if (
+				checkNum(
+					"Do you still want to continue with Update: \n1. Yes \n2. No"
+				) == 2
+			) {
+				updateDoWhile = false;
+			}
+		} while (updateDoWhile);
+	}
+
+	function deleteData() {
+		//-------------------------------Delete--------------------------------------
+		deleteDoWhile = true;
+		do {
+			viewData();
+			var deleteId = checkNum("Enter the User id you want to Delete: ");
+			var flag = idSearch(deleteId);
+
+			if (flag == -1) {
+				alert("Invalid User Id !!!");
+			} else {
+				data.splice(flag - 1, 1);
+				alert("User data deleted successfully !!!");
+			}
+			viewData();
+
+			if (
+				checkNum(
+					"Do you still want to continue with Delete: \n1. Yes \n2. No"
+				) == 2
+			) {
+				deleteDoWhile = false;
+			}
+		} while (deleteDoWhile);
+	}
+
+	//-------------------------------Main Code--------------------------------------
+	var doWhile = true;
+	do {
+		var choice = checkNum(
+			"Enter your choice: \n1. Insert \n2. View \n3. Search \n4. Update \n.5 Delete \n6. Exit"
+		);
+
+		switch (choice) {
+			case 1:
+				insertData();
+				break;
+
+			case 2:
+				viewData();
+				break;
+
+			case 3:
+				searchData();
+				break;
+
+			case 4:
+				updateData();
+				break;
+
+			case 5:
+				deleteData();
+				break;
+
+			case 6:
+				doWhile = false;
+				alert("Thank you! for visiting our system...");
+				break;
+		}
+	} while (doWhile);
+</script>

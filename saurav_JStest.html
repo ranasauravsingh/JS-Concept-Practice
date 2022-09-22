@@ -1,0 +1,172 @@
+<script>
+	var user_id = 101;
+
+	var id = [];
+	var userName = [];
+	var password = [];
+	var fullName = [];
+	var accountNumber = [];
+	var accountBalance = [];
+	const status = [];
+
+	var doWhile = 0;
+	do {
+		var choice = parseInt(
+			prompt(
+				"What's your user role ? \n1. Visitor \n2. Admin \n3. User \n4. Exit"
+			)
+		);
+
+		if (choice == 1) {
+			//--------------------------Visitor--------------------------------------
+
+			id.push(user_id++);
+
+			userName.push(prompt("Enter the username: "));
+
+			password.push(prompt("Enter the password: "));
+
+			fullName.push(prompt("Enter the full name: "));
+
+			status.push(0);
+
+			accountNumber.push("0");
+
+			accountBalance.push(0);
+		} else if (choice == 2) {
+			//---------------------------Admin---------------------------------------
+
+			var adminDoWhile = 0;
+			var ind = -1;
+			do {
+				var adminChoice = parseInt(
+					prompt("What's your user role ? \n1. Manage User \n2. Exit")
+				);
+
+				//--------------Manage User-----------------
+				if (adminChoice == 1) {
+					for (var i = 0; i < id.length; i++) {
+						alert(
+							"ID= " +
+								id[i] +
+								"\nUsername= " +
+								userName[i] +
+								"\nFull Name= " +
+								fullName[i] +
+								"\nAccount Number= " +
+								accountNumber[i] +
+								"\nAccount Balance= " +
+								accountBalance[i] +
+								"\nStatus= " +
+								status[i]
+						);
+					}
+
+					var approvalId = parseInt(
+						prompt(
+							"Which user you want to approve ? (Please enter the User Id): "
+						)
+					);
+
+					for (var i = 0; i < id.length; i++) {
+						if (approvalId == id[i] && status == 0) {
+							ind = i;
+							status[i] = 1;
+							var result = "";
+							for (var j = 0; j < 16; j++) {
+								result += Math.floor(Math.random() * 10);
+							}
+							accountNumber[i] = result;
+							alert("User Approved. Thank You!");
+							break;
+						} else if (approvalId == id[i] && status == 1) {
+							alert("User has been already Approved. Thank You!");
+						}
+					}
+					if (ind == -1) {
+						alert("Invalid User Id, Please enter a valid User Id!!");
+					}
+				} else if (adminChoice == 2) {
+					alert("Thank You! for visiting our system...");
+					adminDoWhile = 1;
+				} else {
+					alert("Please select appropriate choice. Thank You!");
+				}
+			} while (adminDoWhile == 0);
+		} else if (choice == 3) {
+			//---------------------------User---------------------------------------
+
+			var loginUsername = prompt("Enter your Username: ");
+			var loginPassword = prompt("Enter your Password: ");
+
+			var login = -1;
+			for (var i = 0; i < userName.length; i++) {
+				if (loginUsername == userName[i]) {
+					if (loginPassword == password[i]) {
+						if (status[i] == 1) {
+							alert("Login Successful, Welcome!!");
+							login = i;
+						} else {
+							alert("The user has not been approved yet!!");
+						}
+						break;
+					} else {
+						alert("Wrong Password!!");
+					}
+					break;
+				}
+			}
+
+			if (login == -1) {
+				alert("Invalid Username!");
+			} else {
+				var userDoWhile = 0;
+				do {
+					var userChoice = parseInt(
+						prompt(
+							"What's your user role ? \n1. WithDraw \n2. Deposit \n3. Show Balance \n4. Exit"
+						)
+					);
+
+					//-------------------------WithDraw------------------------------
+					if (userChoice == 1) {
+						var withDrawAmount = parseInt(prompt("Enter WithDraw Amount: "));
+						if (accountBalance[login] < withDrawAmount) {
+							alert("Insufficient Balance!");
+						} else {
+							accountBalance[login] -= withDrawAmount;
+							alert("WithDrawed Successfully, Amount has been debited!");
+						}
+					}
+
+					//-------------------------Deposit------------------------------
+					else if (userChoice == 2) {
+						var depositAmount = parseInt(prompt("Enter Deposit Amount: "));
+						accountBalance[login] += depositAmount;
+						alert("Deposited Successfully, Amount has been credited!");
+					}
+
+					//-------------------------Show Balance------------------------------
+					else if (userChoice == 3) {
+						alert(
+							"Account Number= " +
+								accountNumber[login] +
+								"\nAccount Balance= " +
+								accountBalance[login]
+						);
+					} else if (userChoice == 4) {
+						alert("Thank You! for visiting our system...");
+						userDoWhile = 1;
+					} else {
+						alert("Please select appropriate choice. Thank You!");
+					}
+				} while (userDoWhile == 0);
+			}
+		} else if (choice == 4) {
+			alert("Thank You! for visiting our system...");
+			doWhile = 1;
+		} else {
+			alert("Please select appropriate choice. Thank You!");
+		}
+	} while (doWhile == 0);
+</script>

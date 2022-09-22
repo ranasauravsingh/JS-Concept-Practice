@@ -1,0 +1,275 @@
+<script>
+	var userData = [];
+	var numReg = /^\d+$/;
+	var id = 101;
+
+	var adminList = [
+		{ id: 1, name: "saurav", password: 123456, status: 1 },
+		{ id: 2, name: "keshav", password: 123456, status: 1 },
+	];
+
+	function checklen(inp, len) {
+		//-------------------------------Check Length--------------------------------------
+
+		var inputString = prompt(inp);
+		if (inputString.length < len) {
+			inputString = checklen(inp, len);
+		}
+		return inputString;
+	}
+
+	function checkNum(inp) {
+		//-------------------------------Check Number--------------------------------------
+
+		var num = prompt(inp);
+		if (!num.match(numReg)) {
+			num = checkNum(inp);
+		}
+		return parseInt(num);
+	}
+
+	function userOperation(userObject) {
+		//-------------------------------User Operation--------------------------------------
+
+		var userChoice = checkNum(
+			"What's your user role ? \n1. WithDraw \n2. Deposit \n3. Show Balance \n4. Exit"
+		);
+		switch (userChoice) {
+			case 1:
+				//-------------------------WithDraw------------------------------
+				var withDrawAmount = checkNum("Enter WithDraw Amount: ");
+				if (userObject.accountBalance < withDrawAmount) {
+					alert("Insufficient Balance!");
+				} else {
+					userObject.accountBalance -= withDrawAmount;
+					alert("WithDrawed Successfully, Amount has been debited!");
+				}
+				break;
+
+			case 2:
+				//---------------------------Deposit------------------------------
+				var depositAmount = checkNum("Enter Deposit Amount: ");
+				userObject.accountBalance += depositAmount;
+				alert("Deposited Successfully, Amount has been credited!");
+				break;
+
+			case 3:
+				//-------------------------Show Balance------------------------------
+				alert(
+					"Account Number= " +
+						userObject.accountNumber +
+						"\nAccount Balance= " +
+						userObject.accountBalance
+				);
+				break;
+
+			case 4:
+				alert("Thank You!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		userOperation(userObject);
+	}
+
+	function user() {
+		//--------------------------------User---------------------------------------
+
+		var flag = login(userData);
+
+		if (flag == 0) {
+			alert("Invalid User Name !!!");
+		} else if (flag == 1) {
+			alert("Wrong Password !!!");
+		} else {
+			userOperation(flag);
+		}
+	}
+
+	function viewData() {
+		//-------------------------------View--------------------------------------
+		var outputString = "";
+		for (var v of userData) {
+			outputString +=
+				"User Id: " +
+				v.id +
+				" - " +
+				"User Name: " +
+				v.name +
+				" - " +
+				"Full Name: " +
+				v.fullName +
+				"\n.Account Number: " +
+				v.accountNumber +
+				" - " +
+				"Account Balance: " +
+				v.accountBalance +
+				" - " +
+				"Status: " +
+				v.status +
+				"\n";
+		}
+		alert(outputString);
+	}
+
+	function manageUser() {
+		//-----------------------Manage User---------------------
+		viewData();
+		var flag = -1;
+
+		var approvalId = checkNum(
+			"Which user you want to approve ? \n(Please enter the User Id): "
+		);
+
+		for (var i of userData) {
+			if (approvalId == i.id && i.status == 0) {
+				flag = 0;
+				i.status = 1;
+				var result = "";
+				for (var j = 0; j < 16; j++) {
+					result += Math.floor(Math.random() * 10);
+				}
+				i.accountNumber = result;
+				alert("User Approved. Thank You!");
+				break;
+			} else if (approvalId == i.id && i.status == 1) {
+				flag = 1;
+				alert("User has been already Approved. Thank You!");
+			}
+		}
+		if (flag == -1) {
+			alert("Invalid User Id, Please enter a valid User Id!!");
+		}
+	}
+
+	function adminOperation() {
+		var adminChoice = checkNum(
+			"What's your user role ? \n1. Manage User \n2. Exit"
+		);
+
+		switch (adminChoice) {
+			case 1:
+				manageUser();
+				break;
+
+			case 2:
+				alert("Thank you!");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		adminOperation();
+	}
+
+	// ---------------------------------------Just for practice-------------------------
+	function abc(pp, i, ap) {
+		var ram = 0;
+		if (i < pp.length - 1) {
+			if (ap == pp[i].name) {
+				ram = 1;
+			}
+			i++;
+			ram = abc(pp, i, ap);
+		}
+		return ram;
+	}
+	var ss = abc(list, 0, ko);
+	// -------------------------------------Just for practice----------------------------
+
+	function login(list) {
+		var loginFlag = 0;
+		var loginName = checklen("Enter your Name: ", 3);
+		// ----------------yaha per for loop ko recursion meh kese convert kere...?--------------
+		for (var l of list) {
+			if (loginName == l.name) {
+				loginFlag = 1;
+				var loginPassword = checklen("Enter your Password: ", 6);
+				if (loginPassword == l.password) {
+					if (l.status == 1) {
+						loginFlag = l;
+						alert("Login Successfull, Welcome :)");
+					} else {
+						alert("You're not been approved yet!!");
+					}
+				}
+			}
+		}
+		return loginFlag;
+	}
+
+	function admin() {
+		//---------------------------Admin---------------------------------------
+
+		var adminFlag = login(adminList);
+		if (adminFlag == 0) {
+			alert("Invalid Admin Name !!!");
+		} else if (adminFlag == 1) {
+			alert("Invalid Admin Password !!!");
+		} else {
+			adminOperation();
+		}
+	}
+
+	function visitor() {
+		//------------------------------Visitor--------------------------------------
+
+		var name = checklen("Enter the username: \nEnter atleast 3 chars", 3);
+		var password = checklen("Enter the password: \nEnter atleast 6 chars", 6);
+		var fullName = checklen("Enter the full name: \nEnter atleast 5 chars", 5);
+		var status = 0;
+		var accountNumber = "0";
+		var accountBalance = 0;
+		var dummy = {
+			id: id++,
+			name,
+			password,
+			fullName,
+			accountNumber,
+			accountBalance,
+			status,
+		};
+		userData.push(dummy);
+		alert("User data added successfully !!!");
+	}
+
+	function main() {
+		var choice = checkNum(
+			"What's your user role ? \n1. Visitor \n2. Admin \n3. User \n4. Exit"
+		);
+
+		switch (choice) {
+			case 1:
+				visitor();
+				break;
+
+			case 2:
+				admin();
+				break;
+
+			case 3:
+				user();
+				break;
+
+			case 4:
+				alert("Thank you! for visiting our system...");
+				return;
+				break;
+
+			default:
+				alert("Please select appropriate choice. Thank You!");
+
+				break;
+		}
+		main();
+	}
+
+	main();
+</script>
